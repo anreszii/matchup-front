@@ -1,0 +1,29 @@
+{
+  "cli": {
+    "version": ">= 2.1.0"
+  },
+  "build": {
+    "development": {
+      "extends": "production",
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "extends": "production",
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "REACT_APP_API_URL": "https://barakobama.online:80/api",
+        "REACT_APP_WS_URL": "wss://barakobama.online:81/client"
+      }
+    },
+    "production": {
+      "node": "16.0.0"
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

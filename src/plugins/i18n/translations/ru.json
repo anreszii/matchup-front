@@ -1,0 +1,331 @@
+{
+  "translation": {
+    "screens": {
+      "instruction": {
+        "s1": {
+          "title": "Выполняйте задания \nи получайте бонусы",
+          "description": "Выполняйте разные задания от самого \nлегкого до самого сложного и \nполучайте бонусы. Чем сложнее \nзадания, тем больше бонусов вы \nможете получить!"
+        },
+        "s2": {
+          "title": "Присоединяйтесь к команде \nили создавайте свою",
+          "description": "Вы можете создавать свою команду из \nдрузей или профессиональных \nкиберспортсменов, либо \nприсоединяться к уже существующей \nкоманде с крутыми игроками!"
+        },
+        "s3": {
+          "title": "Получайте \nреальные призы",
+          "description": "Лучшие игроки будут получать крутые \nпризы, так что вперёд, бойцы!"
+        }
+      },
+      "welcome": {
+        "title": "Добро пожаловать в MatchUp",
+        "label": "Это платформа для рейтинговых \nматчей вне игры «Standoff 2»."
+      },
+      "signIn": {
+        "title": "Вход"
+      },
+      "signUp": {
+        "title": "Регистрация",
+        "yourIdStandoff": "Ваш ID Standoff 2",
+        "nickname": "Никнейм (в игре)",
+        "email": "Email",
+        "username": "Юзернейм (в приложении)",
+        "disnick": "Никнейм (в дискорде)",
+        "passwordHint": "Должно быть не менее 8 символов"
+      },
+      "resetPassword": {
+        "title": "Сброс пароля",
+        "hint": "Вам на электронную почту будет отправлено письмо с подробной интструкцией по смене вашего пароля."
+      },
+      "home": {
+        "tasksCompleted": "На сегодня заданий выполнено:",
+        "news": "Новости"
+      },
+      "tasks": {
+        "everydayTasks": "Ежедневные задания",
+        "everyweekTasks": "Еженедельные задания"
+      },
+      "shopDetail": {
+        "countryHint": "Если в списке нет вашей страны, свяжитесь с \nадминистратором в наших соц. сетях для уточнения \nподробностей."
+      },
+      "teamEdit": {
+        "teamName": "Название команды",
+        "teamTag": "Тег",
+        "playersCount": "Допустимое кол-во участников",
+        "access": "Доступ",
+        "minRating": "Необходимое кол-во рейтинга",
+        "orPremium": "или наличие премиума"
+      },
+      "profile": {
+        "statistic": "Статистика",
+        "part1": "Доступно в",
+        "middle": "премиум",
+        "part2": "версии"
+      },
+      "editProfile": {
+        "nickname": "Никнейм (в игре)",
+        "email": "Email",
+        "discord": "Никнейм (в дискорде)"
+      },
+      "play": {
+        "solo": "Обычный",
+        "group": "Командный",
+        "modes": {
+          "AWMDM": "AWMDM",
+          "AWMDMDescription": "AWMDM - Хочешь натренировать свою меткость и скорость? Тогда режим снайперской PVP для тебя! В этом режиме ты можешь проверить свой AIM и реакцию.",
+          "HSDM": "HSDM",
+          "HSDMDescription": "HSDM - В этом режиме вы можете отточить умения быстро и точно поражать своего соперника, так как в этом режиме урон засчитывается только в голову!",
+          "oneVSone": "1 VS 1",
+          "oneVSoneDescription": "1 vs 1 - Хочешь стать лучшим в боях? Тогда режим 1 vs 1 для тебя! Тут ты можешь показать своё мастерство в боях с соперником, отточить свой новых и стать лучшим!",
+
+          "training": "Training",
+          "trainingDescription": "Training — режим, в котором вы можете играть в одной команде со своими друзьями. Также можно играть в одиночку, но без рейтинга.",
+          "proLeague": "Pro League",
+          "proLeagueDescription": "Pro League — режим, в котором игроки наивысшего уровня соревнуются друг с другом и получают уникальные награды, не доступные в других режимах.",
+          "proLeagueLockedMessage": "Для разблокировки режима \nдостигните 8 уровня",
+          "masterLeague": "Master League",
+          "masterLeagueDescription": "Master League — режим для игроков с 5 уровнем рейтинга, для него также разработана специальная система подбора матчей",
+          "masterLeagueLockedMessage": "Для разблокировки режима \nдостигните 5 уровня",
+          "premierLeague": "Ranking Mode",
+          "premierLeagueDescription": "Ranking Mode — режим, благодаря которому вы можете играть в рейтинговые игры и продвигаться в топе игроков",
+          "premierLeagueLockedMessage": "Для разблокировки режима \nпреобретите Премиум подписку"
+        }
+      },
+      "searchGame": {
+        "wait": "Примерное ожидание 2 минуты"
+      },
+      "mathLobby": {
+        "solo": "одиночная",
+        "group": "командная",
+        "inviteFriends": "Пригласить друзей",
+        "inviteClanMembers": "Пригласить соклановцев",
+        "topPlayers": "Топ игроков",
+        "topTeams": "Топ команд",
+        "lobby": "Лобби",
+        "startGameDescription": "Для старта подбора противников, нажмите 'Начать игру'",
+        "startGame": "Начать игру"
+      },
+      "game": {
+        "start": "Начало игры...",
+        "preparing": "Подготовка игры...",
+        "search": "Поиск игроков..."
+      },
+      "refill": {
+        "creditCard": "Кредитная карта",
+        "creditCardLabel": "Принимаем Visa, Mastercard и Мир",
+        "sberPay": "SberPay",
+        "sberPayLabel": "Без комиссии",
+        "refillSum": "Сумма пополнения",
+        "refillType": "Способ пополнения"
+      }
+    },
+    "components": {
+      "inviteModal": {
+        "invite": "Вас приглашают \nв лобби",
+        "user": "Пользователь",
+        "inviteTwo": "\nприглашает в лобби"
+      },
+      "taskItem": {
+        "reward": "Вознаграждение"
+      },
+      "taskReward": {
+        "reward": "Вознаграждение",
+        "forAllTasks": "за все задания"
+      },
+      "battlePassProgress": {
+        "untilNextLevel": "до след. уровня"
+      },
+      "playerStatistic": {
+        "matches": "Матчи",
+        "kills": "Убийства",
+        "statistic": "Статистика",
+        "havein": "Доступно в",
+        "premium": "премиум",
+        "version": "версии"
+      },
+      "topPlayers": {
+        "title": "Топ игроков",
+        "place": "место"
+      },
+      "team": {
+        "title": "Команда"
+      },
+      "changeAvatar": {
+        "change": "Изменить фотографию"
+      },
+      "premium": {
+        "premiumStatus": "Премиум статус",
+        "premiumTime": "Премиум действует до"
+      },
+      "report": {
+        "reportTitle": "Есть жалоба на игрока?",
+        "reportText": "Оставьте свой комментарий в отношении этого игрока и он будет рассмотрен",
+        "reportButton": "Пожаловаться"
+      },
+      "changePassword": {
+        "current": "Введите текущий пароль",
+        "notMatch": "Пароли не сопадают",
+        "changePassword": "Смена пароля",
+        "currentPassword": "Текущий пароль",
+        "newPassword": "Новый пароль",
+        "confirmPassword": "Подтвердить пароль"
+      },
+      "gamePlayers": {
+        "counterTerrorists": "Контр-террористы",
+        "terrorists": "Террористы"
+      },
+      "chooseMap": {
+        "title": "Выбор карты"
+      },
+      "chat": {
+        "common": "Чат общий",
+        "team": "Чат команды"
+      },
+      "policy": {
+        "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit voluptates, possimus, tenetur deserunt, est natus perspiciatis consectetur similique dolorum dolore quisquam voluptatibus, minima vitae corporis impedit et repudiandae asperiores? Vel.\nLibero molestiae quis, illum eaque mollitia quibusdam temporibus? Necessitatibus ex quibusdam vel modi rem ipsa quae, eligendi dolorem similique tenetur, recusandae, exercitationem enim distinctio, maiores asperiores sequi doloribus pariatur minus.\nAssumenda quaerat architecto consequatur molestias voluptatibus libero voluptas commodi impedit quasi soluta, nobis, quia non ipsa, repellat quo sed distinctio, eligendi sunt! Mollitia a quis tenetur laboriosam laborum quam aliquid?",
+        "accept": "Я принимаю условия",
+        "politics": "Политики конфиденциальности"
+      },
+      "refillModal": {
+        "text": "Для пополнения счета, свяжитесь с администратором в группе ВК"
+      },
+      "teamSelectModal": {
+        "title": "Вы не в команде",
+        "description": "Чтобы иметь возможность играть, вы можете присоединиться к команде либо создать свою."
+      },
+      "editModal": {
+        "success": "Ваши данные были успешно изменены!"
+      },
+      "reportModal": {
+        "title": "Опишите проблему",
+        "text": "Выберите критерии жалобы",
+        "firstCheck": "Использование стороннего ПО",
+        "secondCheck": "Поведение эротического характера",
+        "thirdCheck": "Мошенничество",
+        "fourthCheck": "Прочее",
+        "attachButton": "Прикрепить доказательство",
+        "sendButton": "Отправить",
+        "cancelButton": "Отмена"
+      },
+      "successReportModal": {
+        "button": "Продолжить",
+        "title": "Ваша жалоба принята",
+        "text": "Команда MatchUp рассмотрит вашу заявку на игрока и примет действия по отношению к нему, мы сообщим вам о развитии дальнейших действий в блоке уведомлений профиля"
+      },
+      "successRecoverModal": {
+        "title": "Письмо отправлено!",
+        "text": "Проверьте электронную почту, мы отправили интструкцию по смене вашего пароля."
+      },
+      "successRegistrationModal": {
+        "title": "Регистрация прошла успешно!",
+        "text": "Ваша учетная запись успешна создана. Спасибо, что вы с нами!"
+      },
+      "historyMatch": {
+        "noMatches": "У вас пока нет матчей",
+        "matches": "Матчи"
+      },
+      "anotherStatistic": {
+        "userdonthave": "У пользователя нет",
+        "premium": "премиума"
+      },
+      "labelsFriends": {
+        "sure": "Уверены?",
+        "one": "Вы действительно хотите удалить",
+        "two": "из своих друзей?",
+        "request": "Запрос отправлен"
+      }
+    },
+    "labels": {
+      "link": "Ссылка на лобби",
+      "send": "Отправить ссылку",
+      "upload": "Загрузить итоги",
+      "connectGame": "Подключиться к игре",
+      "connectDiscord": "Подключиться к дискорду",
+      "confirm": "Подтвердить",
+      "playersFound": "Подтвердите свою \nготовность играть!",
+      "continue": "Далее",
+      "start": "Начать",
+      "cancel": "Отмена",
+      "createAccount": "Создать аккаунт",
+      "logIn": "Войти",
+      "username_email": "Юзернейм/email",
+      "forgetPassword": "Забыли пароль?",
+      "password": "Пароль",
+      "enterEmail": "Введите email",
+      "resetPassword": "Сбросить пароль",
+      "signUp": "Зарегистрироваться",
+      "country": "Страна",
+      "region": "Регион",
+      "choose": "Выбрать",
+      "from": "из",
+      "level": "уровень",
+      "buy": "Купить",
+      "city": "Город",
+      "street": "Улица",
+      "house": "Дом",
+      "postCode": "Почтовый индекс",
+      "checkout": "Оформить покупку",
+      "logOut": "Выйти",
+      "edit": "Редактировать",
+      "requested": "Запрос отправлен",
+      "all": "Все",
+      "friends": "Друзья",
+      "join": "Присоединиться",
+      "decline": "Отклонить",
+      "createTeam": "Создать команду",
+      "request": "Запрос",
+      "sended": "Отправлен",
+      "create": "Создать",
+      "save": "Сохранить",
+      "apply": "Применить",
+      "solo": "Соло",
+      "withTeam": "С командой",
+      "chosen": "Выбрано",
+      "vote": "Проголосовать",
+      "refill": "Пополнить",
+      "close": "Закрыть",
+      "win": "Победа",
+      "defeat": "Поражение",
+      "earned": "Заработано",
+      "yourDevice": "Ваш девайс",
+      "emailSuccess": "",
+      "friendsNone": "У вас пока нет друзей",
+      "ready": "Игроки найдены!"
+    },
+    "tabBar": {
+      "home": "Главная",
+      "tasks": "Задания",
+      "play": "Играть",
+      "shop": "Турниры",
+      "profile": "Профиль"
+    },
+    "headerTitles": {
+      "MatchHistory": "История матчей",
+      "Notifications": "Уведомления",
+      "Play": "Выберите режим",
+      "BattlePass": "Battle Pass",
+      "Profile": "Профиль",
+      "EditProfile": "Профиль",
+      "TopPlayers": "Топ игроков",
+      "TopTeams": "Топ команд",
+      "TeamCreate": "Создание команды",
+      "TeamEdit": "Настройки команды",
+      "TeamJoin": "Присоединиться",
+      "Shop": "Турниры",
+      "ShopDetail": "Покупка",
+      "Refill": "Пополнение счета",
+      "Friends": "Друзья",
+      "FriendsRequests": "Запросы"
+    },
+    "data": {
+      "countries": {
+        "Russia": "Россия",
+        "Kazakhstan": "Казахстан",
+        "China": "Китай"
+      },
+      "regions": {
+        "Asia": "Азия",
+        "Europe": "Европа",
+        "America": "Америка"
+      }
+    }
+  }
+}

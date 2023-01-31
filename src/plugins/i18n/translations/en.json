@@ -1,0 +1,331 @@
+{
+  "translation": {
+    "screens": {
+      "instruction": {
+        "s1": {
+          "title": "Complete tasks \nand get bonuses",
+          "description": "Complete different tasks from \nthe easiest to the most difficult and \nget bonuses. The harder \nthe tasks, the more bonuses you \ncan get!"
+        },
+        "s2": {
+          "title": "Join a team \nor create your own",
+          "description": "You can create your own \nteam of \nfriends or professional esports players, or \njoin an existing \nteam with cool players!"
+        },
+        "s3": {
+          "title": "Get \nreal prizes",
+          "description": "The best players will receive cool \nprizes, so go ahead, fighters!"
+        }
+      },
+      "welcome": {
+        "title": "Welcome to MatchUp",
+        "label": "This is a platform for ranked \nmatches outside of Standoff 2."
+      },
+      "signIn": {
+        "title": "Login"
+      },
+      "signUp": {
+        "title": "Registration",
+        "yourIdStandoff": "Your ID Standoff 2",
+        "nickname": "Nickname (in game)",
+        "email": "Email",
+        "username": "Username (in app)",
+        "disnick": "Nickname (in discord)",
+        "passwordHint": "Must be at least 8 characters"
+      },
+      "resetPassword": {
+        "title": "Password reset",
+        "hint": "An email will be sent to you with detailed instructions on how to change your password."
+      },
+      "home": {
+        "tasksCompleted": "Tasks completed to date:",
+        "news": "News"
+      },
+      "tasks": {
+        "everydayTasks": "Daily quests",
+        "everyweekTasks": "Weekly quests"
+      },
+      "shopDetail": {
+        "countryHint": "If your country is not on the list, please contact the \nadministrator in our social networks. networks for \ndetails."
+      },
+      "teamEdit": {
+        "teamName": "Team name",
+        "teamTag": "Tag",
+        "playersCount": "Allowed number of participants",
+        "access": "Access",
+        "minRating": "Required number of rating",
+        "orPremium": "or premium"
+      },
+      "profile": {
+        "statistic": "Statistics",
+        "part1": "Available in",
+        "middle": "premium",
+        "part2": "version"
+      },
+      "editProfile": {
+        "nickname": "Nickname (in game)",
+        "email": "Email",
+        "discord": "Nickname (in discord)"
+      },
+      "play": {
+        "solo": "Regular",
+        "group": "Command",
+        "modes": {
+          "AWMDM": "AWMDM",
+          "AWMDMDescription": "AWMDM - Do you want to train your accuracy and speed? Then the sniper PVP mode is for you! In this mode, you can test your AIM and reaction.",
+          "HSDM": "HSDM",
+          "HSDMDescription": "HSDM - In this mode, you can hone your skills to quickly and accurately hit your opponent, since in this mode damage is counted only in the head!",
+          "oneVSone": "1 VS 1",
+          "oneVSoneDescription": "1 vs 1 - Do you want to become the best in fights? Then the 1 vs 1 mode is for you! Here you can show your skills in battles with an opponent, hone your new ones and become the best!",
+
+          "training": "Training",
+          "trainingDescription": "Training is a mode in which you can play in the same team with your friends. You can also play alone, but without a rating.",
+          "proLeague": "Pro League",
+          "proLeagueDescription": "Pro League is a mode in which players of the highest level compete against each other and receive unique rewards not available in other modes.",
+          "proLeagueLockedMessage": "Reach level 8 \nto unlock the mode",
+          "masterLeague": "Master League",
+          "masterLeagueDescription": "Master League is a mode for players with a rating level of 5, a special matchmaking system has also been developed for it",
+          "masterLeagueLockedMessage": "Reach level 5 \nto unlock the mode",
+          "premierLeague": "Ranking Mode",
+          "premierLeagueDescription": "Ranking Mode, a mode through which you can play ranked games and move up in the top players",
+          "premierLeagueLockedMessage": "To unlock the mode \npurchase a Premium subscription"
+        }
+      },
+      "searchGame": {
+        "wait": "Exemplary wait 2 minutes"
+      },
+      "mathLobby": {
+        "solo": "solo",
+        "group": "group",
+        "inviteFriends": "Invite friends",
+        "inviteClanMembers": "Invite clan members",
+        "topPlayers": "Top players",
+        "topTeams": "Top teams",
+        "lobby": "Lobby",
+        "startGameDescription": "To start the selection of opponents, click 'Start the game'",
+        "startGame": "Start the game"
+      },
+      "game": {
+        "start": "Beginning the game...",
+        "preparing": "Preparing the game...",
+        "search": "Search for the players..."
+      },
+      "refill": {
+        "creditCard": "Credit card",
+        "creditCardLabel": "We accept Visa, Mastercard and Mir",
+        "sberPay": "SberPay",
+        "sberPayLabel": "No commission",
+        "refillSum": "Top-up amount",
+        "refillType": "Replenishment method"
+      }
+    },
+    "components": {
+      "inviteModal": {
+        "invite": "You are invited \nto the lobby",
+        "user": "User",
+        "inviteTwo": "\ninvites to the lobby"
+      },
+      "taskItem": {
+        "reward": "Reward"
+      },
+      "taskReward": {
+        "reward": "Reward",
+        "forAllTasks": "for all tasks"
+      },
+      "battlePassProgress": {
+        "untilNextLevel": "to the next level"
+      },
+      "playerStatistic": {
+        "matches": "Matches",
+        "kills": "Kills",
+        "statistic": "Statistics",
+        "havein": "Available in",
+        "premium": "premium",
+        "version": "version"
+      },
+      "topPlayers": {
+        "title": "Top Players",
+        "place": "place"
+      },
+      "team": {
+        "title": "Team"
+      },
+      "changeAvatar": {
+        "change": "Change photo"
+      },
+      "premium": {
+        "premiumStatus": "Premium status",
+        "premiumTime": "Premium is available for"
+      },
+      "report": {
+        "reportTitle": "Have a complaint about a player?",
+        "reportText": "Leave your comment about this player and he will be considered",
+        "reportButton": "Complain"
+      },
+      "changePassword": {
+        "current": "Enter the current password",
+        "notMatch": "Passwords don't match",
+        "changePassword": "Password Change",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "confirmPassword": "Confirm password"
+      },
+      "gamePlayers": {
+        "counterTerrorists": "Counter-terrorists",
+        "terrorists": "Terrorists"
+      },
+      "chooseMap": {
+        "title": "Map Selection"
+      },
+      "chat": {
+        "common": "Chat General",
+        "team": "Team Chat"
+      },
+      "policy": {
+        "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit voluptates, possimus, tenetur deserunt, est natus perspiciatis consectetur similique dolorum dolore quisquam voluptatibus, minima vitae corporis impedit et repudiandae asperiores? Vel.\nLibero molestiae quis, illum eaque mollitia quibusdam temporibus? Necessitatibus ex quibusdam vel modi rem ipsa quae, eligendi dolorem similique tenetur, recusandae, exercitationem enim distinctio, maiores asperiores sequi doloribus pariatur minus.\nAssumenda quaerat architecto consequatur molestias voluptatibus libero voluptas commodi impedit quasi soluta, nobis, quia non ipsa, repellat quo sed distinctio, eligendi sunt! Mollitia a quis tenetur laboriosam laborum quam aliquid?",
+        "accept": "I accept the terms",
+        "politics": "Privacy Policy"
+      },
+      "refillModal": {
+        "text": "To refill your account, contact the administrator in the VK group"
+      },
+      "teamSelectModal": {
+        "title": "You are not on the team",
+        "description": "To be able to play, you can join a team or create your own."
+      },
+      "editModal": {
+        "success": "Your profile has been successfully changed!"
+      },
+      "reportModal": {
+        "title": "Describe the problem",
+        "text": "Select Complaint Criteria",
+        "firstCheck": "Using Third Party Software",
+        "secondCheck": "Erotic behavior",
+        "thirdCheck": "Fraud",
+        "fourthCheck": "Other",
+        "attachButton": "Attach proof",
+        "sendButton": "Send",
+        "cancelButton": "Cancel"
+      },
+      "successReportModal": {
+        "button": "Continue",
+        "title": "Your complaint has been accepted.",
+        "text": "The MatchUp team will review your application for a player and take actions in relation to him, we will inform you about the development of further actions in the profile notification block"
+      },
+      "successRecoverModal": {
+        "title": "Letter sent!",
+        "text": "Check your email, we have sent instructions on how to change your password."
+      },
+      "successRegistrationModal": {
+        "title": "Registration completed successfully!",
+        "text": "Your account has been successfully created. Thank you for being with us!"
+      },
+      "historyMatch": {
+        "noMatches": "You don't have matches yet",
+        "matches": "Matches"
+      },
+      "anotherStatistic": {
+        "userdonthave": "The user does not have",
+        "premium": "premium"
+      },
+      "labelsFriends": {
+        "sure": "Sure?",
+        "one": "Do you really want to delete",
+        "two": "from your friends?",
+        "request": "Request has been sent"
+      }
+    },
+    "labels": {
+      "link": "Lobby link",
+      "send": "Send link",
+      "upload": "Upload results",
+      "connectGame": "Connect to the game",
+      "connectDiscord": "Connect to Discord",
+      "confirm": "Сonfirm",
+      "cancel": "Отмена",
+      "playersFound": "Confirm your readiness \nto play!",
+      "continue": "Continue",
+      "start": "Start",
+      "decline": "Decline",
+      "createAccount": "Create an account",
+      "logIn": "Login",
+      "username_email": "Username/email",
+      "forgetPassword": "Forgot your password?",
+      "password": "Password",
+      "enterEmail": "Enter email",
+      "resetPassword": "Reset the password",
+      "signUp": "Register",
+      "country": "Country",
+      "region": "Region",
+      "choose": "Choose",
+      "from": "from",
+      "level": "level",
+      "buy": "Buy",
+      "city": "City",
+      "street": "Street",
+      "house": "House",
+      "postCode": "Postcode",
+      "checkout": "Checkout",
+      "logOut": "Logout",
+      "edit": "Edit",
+      "requested": "Request has been sent",
+      "all": "All",
+      "friends": "Friends",
+      "join": "Join",
+      "createTeam": "Create a team",
+      "request": "Request",
+      "sended": "Sent",
+      "create": "Create",
+      "save": "Save",
+      "apply": "Apply",
+      "solo": "Solo",
+      "withTeam": "With the team",
+      "chosen": "Selected",
+      "vote": "Vote",
+      "refill": "Top up",
+      "close": "Close",
+      "win": "Win",
+      "defeat": "Defeat",
+      "earned": "Earned",
+      "yourDevice": "Your device",
+      "emailSuccess": "",
+      "friendsNone": "You don't have any friends yet",
+      "ready": "Players found!"
+    },
+    "tabBar": {
+      "home": "Home",
+      "tasks": "Tasks",
+      "play": "Play",
+      "shop": "Tourney",
+      "profile": "Profile"
+    },
+    "headerTitles": {
+      "MatchHistory": "Match history",
+      "Notifications": "Notifications",
+      "Play": "Select Mode",
+      "BattlePass": "Battle Pass",
+      "Profile": "Profile",
+      "EditProfile": "Profile",
+      "TopPlayers": "Top players",
+      "TopTeams": "Top teams",
+      "TeamCreate": "Creation of a team",
+      "TeamEdit": "Team settings",
+      "TeamJoin": "Join",
+      "Shop": "Tourney",
+      "ShopDetail": "Purchase",
+      "Refill": "Refill",
+      "Friends": "Friends",
+      "FriendsRequests": "Requests"
+    },
+    "data": {
+      "countries": {
+        "Russia": "Russia",
+        "Kazakhstan": "Kazakhstan",
+        "China": "China"
+      },
+      "regions": {
+        "Asia": "Asia",
+        "Europe": "Europe",
+        "America": "America"
+      }
+    }
+  }
+}
