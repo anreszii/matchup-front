@@ -19,4 +19,8 @@ export const containerStyles = StyleSheet.create({
     marginRight: "auto",
     paddingTop: 10,
   },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+  }
 });

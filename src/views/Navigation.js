@@ -4,7 +4,7 @@ import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createStackNavigator} from '@react-navigation/stack'
 
 // views
-import { Intro } from "@/views/Intro.js";
+import { Intro } from "@/views/Intro.tsx";
 import { Instruction } from "@/views/Instruction.js";
 import { Welcome } from "@/views/Welcome.js";
 import { SignIn } from "@/views/SignIn.js";

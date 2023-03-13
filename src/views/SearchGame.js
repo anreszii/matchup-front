@@ -23,14 +23,27 @@ export function SearchGame({ navigation }) {
   const { t, i18n } = useTranslation();
   const [visible, setVisible] = useState(false);
   const [countPlayers, setCountPlayers] = useState(1);
+  const [searchPlayers, setSearchPlayers] = useState(0);
+  const [playPlayers, setPlayPlayers] = useState(0);
 
   useEffect(() => {
     (async () => {
+      setInterval(() => {
+        socket.sendSocket("dark-side", {
+          label: "get_all_players_found",
+          controller: "get_global_players_count",
+          params: [],
+        });
+      }, 1000);
       socket.listenSocket(async (label, data) => {
         if (label === "leave") {
           setVisible(false);
           socket.disconnectSocket();
           navigation.navigate("Tabs", { screen: "Play" });
+        }
+        if (label === "get_all_players_found") {
+          setSearchPlayers(data.searching);
+          setPlayPlayers(data.playing);
         }
         if (label === "sync") {
           setVisible(false);
@@ -42,7 +55,7 @@ export function SearchGame({ navigation }) {
             .profile.username;
           await AsyncStorage.setItem("lobby", JSON.stringify(data.players));
           for (const item of data.players) {
-            if (username === item.name && item.isReady === false) {
+            if (username === item.name && item.flags.ready === false) {
               setVisible(true);
             }
           }
@@ -69,7 +82,6 @@ export function SearchGame({ navigation }) {
         <LogoFullIcon />
         <TouchableOpacity
           onPress={() => {
-            console.log("close"); //TODO удалить
             socket.sendSocket("dark-side", {
               label: "leave-lobby",
               controller: "leave_lobby",
@@ -93,6 +105,10 @@ export function SearchGame({ navigation }) {
         >
           <Timer />
           <Text style={typographyStyles.h2}>{t("screens.game.search")}</Text>
+          <View>
+            <Text>{searchPlayers}</Text>
+            <Text>{playPlayers}</Text>
+          </View>
         </View>
         <View style={{ marginBottom: 32 }}>
           <SearchGamePlayes players={countPlayers} />

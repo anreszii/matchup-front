@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     maxWidth: containerWidth,
     height: 40,
     marginTop: 8,
-    borderRadius: 5,
+    borderRadius: 60,
     backgroundColor: "#23292E",
     justifyContent: "center",
     alignItems: "center",
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     marginRight: 8,
-    borderRadius: 5,
+    borderRadius: 60,
   },
   userName: {
     fontSize: 16,

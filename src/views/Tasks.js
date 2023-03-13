@@ -18,7 +18,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback } from "react";
-import { getUserData } from "../requests";
+import { getTasksData, getUserData } from "../requests";
 
 export function Tasks({ navigation }) {
   const { t, i18n } = useTranslation();
@@ -27,13 +27,12 @@ export function Tasks({ navigation }) {
   const reward = [];
   const [refreshing, setRefreshing] = useState(false);
   const [loader, setLoader] = useState(true);
-  const [language, setLanguage] = useState('ru')
+  const [language, setLanguage] = useState("ru");
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
       getData();
-      setRefreshing(false);
     }, 2000);
   }, [refreshing]);
 
@@ -49,21 +48,28 @@ export function Tasks({ navigation }) {
   };
 
   const getData = async () => {
-    const lang = await AsyncStorage.getItem('lang')
-    setLanguage(lang)
-    const data = JSON.parse(new Array(await AsyncStorage.getItem("tasks")));
-    const week = [];
-    const day = [];
-    data.map((item) => {
-      if (item[0].expires.expirationType === "day") {
-        day.push(item[0]);
-      } else {
-        week.push(item[0]);
-      }
-    });
-    setDailyTasks(new Array(JSON.parse(JSON.stringify(day))));
-    setWeeklyTasks(new Array(JSON.parse(JSON.stringify(week))));
-    setLoader(false);
+    const lang = await AsyncStorage.getItem("lang");
+    setLanguage(lang);
+    getTasksData();
+    let data;
+    setTimeout(async () => {
+      data = JSON.parse(new Array(await AsyncStorage.getItem("tasks")));
+      const week = [];
+      const day = [];
+      data.map((item) => {
+        item.map((task) => {
+          if (task.expires.expirationType === "day") {
+            day.push(task);
+          } else {
+            week.push(task);
+          }
+        });
+      });
+      setDailyTasks(new Array(JSON.parse(JSON.stringify(day))));
+      setWeeklyTasks(new Array(JSON.parse(JSON.stringify(week))));
+      setLoader(false);
+      setRefreshing(false);
+    }, 1000);
   };
 
   useEffect(() => {

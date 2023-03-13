@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     width: 33,
     height: 33,
     marginRight: 8,
-    borderRadius: 5,
+    borderRadius: 60,
   },
   topItemInfo: {},
   topItemUserName: {

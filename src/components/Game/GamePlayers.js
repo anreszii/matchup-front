@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 
 export function GamePlayers({ players, captains }) {
   const { t, i18n } = useTranslation();
-  console.log("players", players); //TODO удалить
   const Player = (player) => {
     return (
       <View style={styles.player}>
@@ -120,7 +119,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginRight: 12,
-    borderRadius: 50,
+    borderRadius: 60,
   },
   playerName: {
     fontWeight: "600",

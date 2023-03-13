@@ -41,14 +41,14 @@ export function SignIn({ navigation }) {
     } else {
       await AsyncStorage.setItem("user", user.username);
       dispatch(setToken(data.token));
-      DevSettings.reload()
+      RNRestart.Restart()
     }
   };
 
   return (
     <View style={containerStyles.authContainer}>
       <Input
-        label={t("labels.username_email")}
+        label={t("labels.username")}
         mb={10}
         value={user.username}
         onChangeText={(value) => setUser({ ...user, username: value })}

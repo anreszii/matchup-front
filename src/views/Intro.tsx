@@ -1,15 +1,20 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, FC } from "react";
 import { SafeAreaView, StyleSheet, Animated } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import socket from "@/socket";
 import { getData } from "@/requests";
 import { useNavigation } from "@react-navigation/native";
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import { useTranslation } from "react-i18next";
-
+interface IIntro {
+  navigation: any
+   forwardTo?: any
+   appReady: boolean
+}
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
-export function Intro({ navigation, forwardTo, appReady }) {
+export const Intro: FC<IIntro> = ({ navigation, forwardTo, appReady }) => {
   const scaleImg = useRef(new Animated.Value(5.5)).current;
   const positionImg = useRef(new Animated.Value(0)).current;
   const positionText = useRef(new Animated.Value(0)).current;

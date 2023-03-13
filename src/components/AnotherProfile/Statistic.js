@@ -4,16 +4,19 @@ import { useTranslation } from "react-i18next";
 
 export function Statistic({ userData }) {
   const { t, i18n } = useTranslation();
+  const userWR =
+    (userData?.rating?.WC /
+      (userData?.rating?.WC + userData?.rating?.LC + userData?.rating?.DC)) ===
+    NaN
+      ? userData?.rating?.WC /
+      (userData?.rating?.WC + userData?.rating?.LC + userData?.rating?.DC)
+      : 0
   return (
     <View style={styles.container}>
-      {userData.role === "privileged" ? (
+      {userData.premium.isPremium === true ? (
         <>
           <View style={{ ...styles.block, marginRight: 15, marginBottom: 14 }}>
-            <Text style={styles.blockValue}>
-              {`${userData?.rating?.WC / (userData?.rating?.WC +
-                userData?.rating?.LC +
-                userData?.rating?.DC) * 100} ${"%"}`}
-            </Text>
+            <Text style={styles.blockValue}>{`${userWR} ${"%"}`}</Text>
             <Text style={styles.blockLabel}>Win/Lose</Text>
           </View>
           <View style={{ ...styles.block, marginBottom: 14 }}>
@@ -46,7 +49,10 @@ export function Statistic({ userData }) {
       ) : (
         <View style={styles.nonPremBlock}>
           <Text>
-            {t("components.anotherStatistic.userdonthave")} <Text style={styles.text}>{t("components.anotherStatistic.premium")}</Text>
+            {t("components.anotherStatistic.userdonthave")}{" "}
+            <Text style={styles.text}>
+              {t("components.anotherStatistic.premium")}
+            </Text>
           </Text>
         </View>
       )}

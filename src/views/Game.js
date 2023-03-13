@@ -46,8 +46,7 @@ export function Game({ navigation }) {
   const [gameLink, setGameLink] = useState("");
   const [isPrepare, setIsPrepare] = useState(false);
   const [isLinkSended, setIsLinkSended] = useState(false);
-  const url =
-    "https://discord.gg/rPBd2x3U5U";
+  const url = "https://discord.gg/rPBd2x3U5U";
 
   useEffect(() => {
     socket.sendSocket("dark-side", {
@@ -68,6 +67,7 @@ export function Game({ navigation }) {
         if (label === "leave") {
           setOwner("");
           navigation.navigate("Tabs", { screen: "Play" });
+          socket.disconnectSocket();
         }
         if (label === "prepare") {
           setIsPrepare(true);
@@ -157,14 +157,13 @@ export function Game({ navigation }) {
       mediaTypes: MediaTypeOptions.Images,
       allowsEditing: true,
       quality: 0,
-      borderRadius: 5,
     });
-    if (!result.cancelled) {
+    if (!result.canceled) {
       const jwt = await AsyncStorage.getItem("token");
       try {
         const response = await FileSystem.uploadAsync(
           `https://barakobama.online:80/api/results/upload`,
-          result.uri,
+          result.assets[0].uri,
           {
             headers: {
               Authorization: `Bearer ${jwt}`,
@@ -309,15 +308,19 @@ export function Game({ navigation }) {
                 <>
                   <View style={{ alignItems: "center", marginTop: 16 }}>
                     <Button
+                      outline
                       title={t("labels.connectGame")}
                       onPress={() => connectGame()}
                     />
                   </View>
+                </>
+              )}
+              {isPrepare && gameLink !== "" && (
+                <>
                   <View style={{ alignItems: "center", marginTop: 16 }}>
                     <Button
                       title={t("labels.connectDiscord")}
                       onPress={() => connectDiscord()}
-                      disabled={true}
                     />
                   </View>
                 </>

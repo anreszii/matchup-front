@@ -22,6 +22,7 @@ import socket from "@/socket";
 import { MatchHistory } from "../components/AnotherProfile/HistoryMatch";
 import { HeaderBack } from "../components/Layout/HeaderBack";
 import { Report } from "../components/AnotherProfile/Reports";
+import { useNavigation } from "@react-navigation/native";
 
 export function AnotherUser({ route }) {
   const { t, i18n } = useTranslation();
@@ -29,6 +30,7 @@ export function AnotherUser({ route }) {
   const [lvl, setLvl] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loader, setLoader] = useState(true);
+  const navigation = useNavigation()
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -40,7 +42,14 @@ export function AnotherUser({ route }) {
 
   useEffect(() => {
     setLoader(true);
-    getUserData();
+    (async () => {
+      const username = await AsyncStorage.getItem("user")
+      if (route.params.params.creature === username) {
+        navigation.navigate("Profile")
+      } else {
+        getUserData();
+      }
+    })()
   }, [route]);
 
   const getUserData = async () => {

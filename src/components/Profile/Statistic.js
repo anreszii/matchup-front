@@ -4,7 +4,14 @@ import { useTranslation } from "react-i18next";
 
 export function Statistic({ userData }) {
   const { t, i18n } = useTranslation();
-  return (
+  const userWR =
+    (userData?.rating?.WC /
+      (userData?.rating?.WC + userData?.rating?.LC + userData?.rating?.DC)) ===
+    NaN
+      ? userData?.rating?.WC /
+      (userData?.rating?.WC + userData?.rating?.LC + userData?.rating?.DC)
+      : 0
+  return ( 
     <View style={styles.container}>
       <View style={styles.labels}>
         <Text style={styles.label}>{t("screens.profile.statistic")}</Text>
@@ -12,11 +19,7 @@ export function Statistic({ userData }) {
       {userData.premium.isPremium === true ? (
         <>
           <View style={{ ...styles.block, marginRight: 15, marginBottom: 14 }}>
-            <Text style={styles.blockValue}>
-              {typeof (userData?.rating?.WC / userData?.rating?.LC) === NaN
-                ? userData?.rating?.WC / userData?.rating?.LC
-                : userData?.rating?.WC}
-            </Text>
+            <Text style={styles.blockValue}>{`${userWR} ${"%"}`}</Text>
             <Text style={styles.blockLabel}>Win/Lose</Text>
           </View>
           <View style={{ ...styles.block, marginBottom: 14 }}>

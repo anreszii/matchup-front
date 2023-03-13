@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
     width: 33,
     height: 33,
-    borderRadius: 5
+    borderRadius: 60
   },
   userName: {
     fontWeight: "600",

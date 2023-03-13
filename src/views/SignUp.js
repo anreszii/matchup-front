@@ -31,12 +31,12 @@ export function SignUp({ navigation }) {
   const stepsCount = 2;
   const validators = {
     id: intValidator,
-    nickname: minMaxValidator(6, 18),
+    nickname: minMaxValidator(3, 18),
     email: emailValidator,
-    username: minMaxValidator(6, 18),
+    username: minMaxValidator(3, 18),
     password: passwordValidator,
     region: requiredValidator,
-    discord: minMaxValidator(6, 18),
+    discord: minMaxValidator(3, 18),
   };
   const [user, setUser] = useState({
     id: "",
@@ -61,7 +61,7 @@ export function SignUp({ navigation }) {
   const [agree, setAgree] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
-  const [visibleModal, setVisibleModal] = useState("false");
+  const [visibleModal, setVisibleModal] = useState(false);
 
   const validate = () => {
     setIsValid(true);
@@ -171,7 +171,16 @@ export function SignUp({ navigation }) {
             label={t("screens.signUp.disnick")}
             mb={10}
             value={user.discord}
-            onChangeText={(value) => setUser({ ...user, discord: value })}
+            onChangeText={(value) => {
+              if (value.indexOf("#") === -1) {
+                setUser({ ...user, discord: value });
+              } else {
+                setUser({
+                  ...user,
+                  discord: value.substr(0, value.indexOf("#")),
+                });
+              }
+            }}
             error={errors.discord}
           />
           {errors.all && (

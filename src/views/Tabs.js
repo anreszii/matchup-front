@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
 
 import { Home } from "@/views/Home.js";
+import Team from "./Team"
 import { Tasks } from "@/views/Tasks.js";
 import { Play } from "@/views/Play.js";
 import { Tournaments } from "@/views/Tournaments.js";
@@ -40,6 +41,7 @@ import {
 
 import { useTranslation } from "react-i18next";
 import { AnotherUser } from "./AnotherUser";
+import TeamSettings from "./TeamSettings";
 
 export function Tabs({ route }) {
   const { t, i18n } = useTranslation();
@@ -67,6 +69,23 @@ export function Tabs({ route }) {
         component={Home}
         options={({ route }) => ({
           title: t("tabBar.home"),
+          tabBarIcon: <HomeIcon />,
+          tabBarIconActive: <HomeIconActive />,
+        })}
+      />
+      <Tab.Screen
+        name="TeamSettings"
+        component={TeamSettings}
+        initialParams={route}
+        options={() => ({
+          tabBarButton: false,
+        })}
+      />
+      <Tab.Screen
+        name="Team"
+        component={Team}
+        options={({ route }) => ({
+          title: t("tabBar.team"),
           tabBarIcon: <HomeIcon />,
           tabBarIconActive: <HomeIconActive />,
         })}

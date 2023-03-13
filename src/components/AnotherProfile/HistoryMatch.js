@@ -42,6 +42,7 @@ export function MatchHistory({ username }) {
       if (label === "get_another_history_match") {
         getHistoryMatches(data.match_list);
       }
+      socket.disconnectSocket();
     });
     getAnotherMatchHistory(username);
   };
@@ -88,7 +89,7 @@ export function MatchHistory({ username }) {
         {history.length !== 0 ? history.map((item, index) => {
           return <MatchHistoryItem item={item} key={index} />;
         }) : <View>
-            <Text style={styles.textAlign}>{t("components.historyMatch.noMatches")}</Text>
+            <Text style={styles.textAlign}>{t("components.historyMatchAnother.noMatches")}</Text>
           </View>}
       </ScrollView>
     </>

@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   image: {
     width: 45,
     height: 45,
-    borderRadius: 5,
+    borderRadius: 60,
   },
   addIcon: {
     color: "white",
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: "black",
     color: "white",
-    borderRadius: 5,
+    borderRadius: 60,
   },
   leaveText: {
     color: "white",

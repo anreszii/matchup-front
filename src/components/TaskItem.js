@@ -14,7 +14,7 @@ export function TaskItem({ items, style, language }) {
           return (
             <View key={index} style={[styles.taskItem, style]}>
               <View style={styles.taskItemContentBox}>
-                <Text style={styles.taskItemTitle}>{language === 'ru' ? item.name.split('|')[0] : item.name.split("|")[1]}</Text>
+                <Text style={styles.taskItemTitle}>{language === "en" ? item.name.split('|')[1] : item.name.split("|")[0]}</Text>
                 <Text style={styles.taskItemText}>
                   {item.progress.currentPoints}/{item.progress.requiredPoints}
                 </Text>

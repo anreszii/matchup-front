@@ -7,7 +7,7 @@ export const minMaxValidator = (min, max) => {
   const minV = minValidator(min);
   return (value) => {
     return maxV(value) && minV(value);
-  }
+  };
 };
 
 export const maxValidator = (max) => {
@@ -23,14 +23,13 @@ export const minValidator = (min) => {
 };
 
 export const passwordValidator = (value) => {
-  return value
-    && /[a-z]/.test(value)
-    && /[A-Z]/.test(value)
-    && /.{8,}/.test(value);
+  const passwordRegexp = /^(?=.*[A-Za-z])[A-Za-z\d]{8,}$/
+  return value && passwordRegexp.test(value);
 };
 
 export const emailValidator = (value) => {
-  const emailRegexp = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  const emailRegexp =
+    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
   return value && emailRegexp.test(value);
 };
 

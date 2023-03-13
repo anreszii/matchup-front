@@ -6,12 +6,12 @@ import { Coin } from "@/icons";
 import { headerStyles } from "@/styles/header.js";
 import { RefillModal } from "@/components/Modals/RefillModal.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-export function HeaderRefill({ userData }) {
+export function HeaderRefill() {
   const [coins, setCoins] = useState(0);
   useEffect(() => {
     (async () => {
       const user = JSON.parse(await AsyncStorage.getItem("profile"));
-      setCoins(user?.profile?.balance || 0);
+      setCoins(user[0]?.profile?.balance || 0);
     })();
   });
 

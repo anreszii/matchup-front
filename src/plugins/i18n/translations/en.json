@@ -118,6 +118,11 @@
       }
     },
     "components": {
+      "versionModal": {
+        "title": "The new version is already available!",
+        "subtitle": "You don't have the latest version of the app",
+        "update": "Update"
+      },
       "inviteModal": {
         "invite": "You are invited \nto the lobby",
         "user": "User",
@@ -222,6 +227,9 @@
         "noMatches": "You don't have matches yet",
         "matches": "Matches"
       },
+      "historyMatchAnother": {
+        "noMatches": "User has no matches yet"
+      },
       "anotherStatistic": {
         "userdonthave": "The user does not have",
         "premium": "premium"
@@ -240,14 +248,14 @@
       "connectGame": "Connect to the game",
       "connectDiscord": "Connect to Discord",
       "confirm": "Сonfirm",
-      "cancel": "Отмена",
+      "cancel": "Cancel",
       "playersFound": "Confirm your readiness \nto play!",
       "continue": "Continue",
       "start": "Start",
       "decline": "Decline",
       "createAccount": "Create an account",
       "logIn": "Login",
-      "username_email": "Username/email",
+      "username": "Username",
       "forgetPassword": "Forgot your password?",
       "password": "Password",
       "enterEmail": "Enter email",

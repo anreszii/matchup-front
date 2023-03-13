@@ -44,6 +44,7 @@ export function FriendsRequests({ route }) {
       }
       if (label === "get_subscribers") {
         setSubscribers(data);
+        socket.disconnectSocket();
       }
     });
     socket.sendSocket("syscall", {
@@ -86,12 +87,6 @@ export function FriendsRequests({ route }) {
             >
               <AddUserIcon style={styles.icon} />
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.userActionAccept}
-              onPress={() => delRequest(user.name)}
-            >
-              <DeleteUserIcon style={styles.icon} />
-            </TouchableOpacity>
           </View>
         ))}
       </ScrollView>
@@ -112,7 +107,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
     width: 45,
     height: 45,
-    borderRadius: 5,
+    borderRadius: 60,
   },
   userName: {
     fontWeight: "600",
@@ -122,6 +117,7 @@ const styles = StyleSheet.create({
   },
   userAction: {
     marginLeft: "auto",
+    marginBottom: -16
   },
   userActionAccept: {
     marginLeft: 20,

@@ -36,6 +36,7 @@ export function Friends({ route, navigation }) {
   const [timeoutID, setTimeoutID] = useState(null);
   const [visible, setVisible] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [searchFriend, setSearchFriends] = useState([]);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -72,20 +73,31 @@ export function Friends({ route, navigation }) {
       socket.listenSocket((label, data) => {
         if (label === "get_all_user") {
           setSearchUser([]);
+          setSearchFriends([]);
           data.map((user) => {
-            friends.map((friend) => {
-              if (user.profile.username !== userName) {
-                if (user.profile.username !== friend.name)
-                  setSearchUser((searchUser) => [
-                    ...searchUser,
-                    {
-                      username: user.profile.username,
-                      avatar: user.profile.avatar,
-                      isRequested: false,
-                    },
-                  ]);
+            if (user.profile.username !== userName) {
+              if (
+                friends.find((i) => i.name === user.profile.username) ===
+                undefined
+              ) {
+                setSearchUser((searchUser) => [
+                  ...searchUser,
+                  {
+                    username: user.profile.username,
+                    avatar: user.profile.avatar,
+                    isRequested: false,
+                  },
+                ]);
+              } else {
+                setSearchFriends((searchFriend) => [
+                  ...searchFriend,
+                  {
+                    name: user.profile.username,
+                    image: user.profile.avatar,
+                  },
+                ]);
               }
-            });
+            }
           });
           socket.disconnectSocket();
           setLoader(false);
@@ -113,6 +125,7 @@ export function Friends({ route, navigation }) {
     socket.listenSocket(async (label, data) => {
       if (label === "del_request") {
         getRelations();
+        socket.disconnectSocket();
       }
       if (label === "get_friends") {
         await AsyncStorage.setItem("friends", JSON.stringify(data));
@@ -144,6 +157,7 @@ export function Friends({ route, navigation }) {
     socket.listenSocket(async (label, data) => {
       if (label === "add_friends") {
         getRelations();
+        socket.disconnectSocket();
       }
       if (label === "get_friends") {
         await AsyncStorage.setItem("friends", JSON.stringify(data));
@@ -229,9 +243,9 @@ export function Friends({ route, navigation }) {
           <>
             {search !== "" ? (
               <>
-                {friends.length ? (
+                {searchFriend.length ? (
                   <>
-                    {friends.map((user, index) => (
+                    {searchFriend.map((user, index) => (
                       <View key={index}>
                         <TouchableOpacity
                           style={styles.user}
@@ -269,7 +283,7 @@ export function Friends({ route, navigation }) {
                       style={{
                         borderBottomColor: "rgba(255, 255, 255, 0.4)",
                         borderBottomWidth: StyleSheet.hairlineWidth,
-                        marginVertical: 16,
+                        marginBottom: 16,
                       }}
                     />
                     {searchUser.map((user, index) => {
@@ -350,9 +364,8 @@ export function Friends({ route, navigation }) {
               <>
                 {friends.length
                   ? friends.map((user, index) => (
-                      <>
+                      <View key={index}>
                         <TouchableOpacity
-                          key={index}
                           style={styles.user}
                           onPress={() =>
                             navigation.navigate("Tabs", {
@@ -382,7 +395,7 @@ export function Friends({ route, navigation }) {
                           } ${t("components.labelsFriends.two")}`}
                           func={() => delRequest(user.name)}
                         ></BottomQuestModal>
-                      </>
+                      </View>
                     ))
                   : ""}
               </>
@@ -404,7 +417,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
     width: 45,
     height: 45,
-    borderRadius: 5,
+    borderRadius: 60,
   },
   userName: {
     fontWeight: "600",
@@ -413,6 +426,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   userAction: {
+    marginBottom: -16,
     marginLeft: "auto",
   },
   userRequested: {

@@ -1,3 +1,4 @@
+import version from "@/constants/version";
 import { REACT_APP_WS_URL } from "@env";
 
 class WSClient {
@@ -47,8 +48,8 @@ class WSClient {
       const fr = new FileReader();
       fr.onload = (e) => {
         const { event, used } = JSON.parse(e.target.result);
+        console.log(used)
         let label = JSON.parse(used[0]).label;
-        // console.log(used);
         if (label === "unknown") {
           callback(label, used);
         }
@@ -160,6 +161,12 @@ class WSClient {
         if (label === "leave") {
           callback(label, JSON.parse(used));
         }
+        if (label === "auth") {
+          callback(label, JSON.parse(used));
+        }
+        if (label === "get_all_players_found") {
+          callback(label, JSON.parse(used).response);
+        }
       };
       fr.readAsText(event.data);
     });
@@ -173,7 +180,7 @@ class WSClient {
 
   updateToken(token) {
     this.token = token;
-    this.send("authorize");
+    this.send("authorize", { label: "auth", version: version });
     this.sendStack();
   }
 
@@ -186,15 +193,9 @@ class WSClient {
 
   send(event, payload = {}) {
     if (!this.isOpened || !this.token) {
-      console.log("isOpened", !this.isOpened, !this.token); //TODO удалить
       this.stack.push({ event, payload });
       return;
     }
-    console.log(
-      "send",
-      JSON.stringify({ event, token: this.token, ...payload })
-    ); //TODO удалить
-
     this.socket.send(JSON.stringify({ event, token: this.token, ...payload }));
   }
 

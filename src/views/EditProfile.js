@@ -69,7 +69,11 @@ export function EditProfile({ navigation, route }) {
           filter: { "profile.username": user },
           update: {
             count: "one",
-            set: { "profile.nickname": nickname, "credentials.region": region, "profile.discord_nickname": discord },
+            set: {
+              "profile.nickname": nickname,
+              "credentials.region": region,
+              "profile.discord_nickname": discord,
+            },
           },
         },
       });
@@ -102,7 +106,10 @@ export function EditProfile({ navigation, route }) {
           filter: { "profile.username": user },
           update: {
             count: "one",
-            set: { "profile.nickname": nickname, "profile.discord_nickname": discord },
+            set: {
+              "profile.nickname": nickname,
+              "profile.discord_nickname": discord,
+            },
           },
         },
       });
@@ -120,7 +127,10 @@ export function EditProfile({ navigation, route }) {
           filter: { "profile.username": user },
           update: {
             count: "one",
-            set: { "profile.discord_nickname": discord, "credentials.region": region },
+            set: {
+              "profile.discord_nickname": discord,
+              "credentials.region": region,
+            },
           },
         },
       });
@@ -185,7 +195,7 @@ export function EditProfile({ navigation, route }) {
       try {
         const response = await FileSystem.uploadAsync(
           `https://barakobama.online:80/api/image/upload`,
-          avatar.uri,
+          avatar,
           {
             headers: {
               Authorization: `Bearer ${jwt}`,

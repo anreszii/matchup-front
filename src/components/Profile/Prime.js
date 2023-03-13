@@ -8,11 +8,12 @@ import { Button } from "ui/Button.js";
 import { UserVipIcon } from "@/icons";
 import { useTranslation } from "react-i18next";
 import { RefillModal } from "@/components/Modals/RefillModal.js";
+import moment from "moment/moment";
 
 export function Prime({ userData }) {
   const { t, i18n } = useTranslation();
-
-  return (
+  const date = moment(userData.premium.expiresIn).format('L');
+  return ( 
     <>
       <View>
         <Text style={typographyStyles.h2}>
@@ -23,9 +24,9 @@ export function Prime({ userData }) {
             <UserVipIcon />
           </View>
           <View style={{ flex: 1, justifyContent: "center" }}>
-            {userData?.role === "privileged" ? (
+            {userData.premium.isPremium === true ? (
               <Text style={styles.primeText}>
-                {t("components.premium.premiumTime")}
+                {`${t("components.premium.premiumTime")} \n ${date}`}
               </Text>
             ) : (
               <Button
@@ -68,5 +69,6 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 16,
     color: "#fff",
+    textAlign: "center"
   },
 });

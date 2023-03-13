@@ -13,7 +13,7 @@ export function Modal({ visible, setVisible, useDefaultStyles, children, full, .
       <TouchableOpacity
         activeOpacity={1}
         onPress={() => {setVisible(false)}}
-        style={[full && {height: "100%", backgroundColor: 'rgba(11, 18, 24, .8)'}]}
+        style={[full && {height: "100%", backgroundColor: 'rgba(11, 18, 24, 0.8)'}]}
       >
         <TouchableWithoutFeedback>
           {children}

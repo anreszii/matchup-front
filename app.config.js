@@ -2,7 +2,7 @@ export default () => ({
   expo: {
     name: "MatchUp",
     slug: "matchup",
-    version: "0.1.0",
+    version: "0.0.2",
     orientation: "portrait",
     icon: "./assets/icon.png",
     userInterfaceStyle: "light",
@@ -38,8 +38,8 @@ export default () => ({
       ],
     ],
     extra: {
-      API_URL: process.env.REACT_APP_API_URL || null,
-      WS_URL: process.env.REACT_APP_WS_URL || null,
+      API_URL: process.env.REACT_APP_API_URL || "https://barakobama.online:80/api",
+      WS_URL: process.env.REACT_APP_WS_URL || "wss://barakobama.online:81/client",
       eas: {
         projectId: "717ac0e9-81e7-464e-8d31-56927903cc29",
       },

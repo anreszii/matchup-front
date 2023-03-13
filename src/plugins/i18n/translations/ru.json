@@ -118,6 +118,11 @@
       }
     },
     "components": {
+      "versionModal": {
+        "title": "Новая версия уже доступна!",
+        "subtitle": "У вас не установлена последняя версия приложения",
+        "update": "Обновиться"
+      },
       "inviteModal": {
         "invite": "Вас приглашают \nв лобби",
         "user": "Пользователь",
@@ -222,6 +227,9 @@
         "noMatches": "У вас пока нет матчей",
         "matches": "Матчи"
       },
+      "historyMatchAnother": {
+        "noMatches": "У пользователя ещё не было матчей"
+      },
       "anotherStatistic": {
         "userdonthave": "У пользователя нет",
         "premium": "премиума"
@@ -246,7 +254,7 @@
       "cancel": "Отмена",
       "createAccount": "Создать аккаунт",
       "logIn": "Войти",
-      "username_email": "Юзернейм/email",
+      "username": "Юзернейм",
       "forgetPassword": "Забыли пароль?",
       "password": "Пароль",
       "enterEmail": "Введите email",

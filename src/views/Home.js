@@ -24,14 +24,19 @@ import { news } from "../store/API/news";
 import { InviteModal } from "../components/Modals/InviteModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import socket from "@/socket";
+import { VersionModal } from "@/components/Modals/VersionModal";
+import { completed, total } from "@/constants/completedTasks";
 
 export function Home({ navigation }) {
   const { t, i18n } = useTranslation();
   const [newsVK, setNewsVK] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loader, setLoader] = useState(true);
-  const [isVisible, setVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [teamId, setTeamId] = useState(null);
+  const [totalTasks, setTotalTasks] = useState(total);
+  const [completedTasks, setCompletedTasks] = useState(completed);
   const [statusBarHeight, setStatusBarHeight] = useState(
     Platform.OS === "ios" ? getStatusBarHeight(true) : StatusBar.currentHeight
   );
@@ -53,6 +58,11 @@ export function Home({ navigation }) {
 
   const getData = async () => {
     socket.listenSocket(async (label, data) => {
+      if (label === "auth") {
+        if (data.complete === false) {
+          setVisible(true);
+        }
+      }
       if (label === "vote") {
         navigation.navigate("Tabs", { screen: "Game" });
       }
@@ -62,12 +72,12 @@ export function Home({ navigation }) {
       if (label === "invite") {
         navigation.navigate("Tabs", { screen: "Home" });
         setTeamId(data.teamId);
-        setVisible(true);
+        setIsVisible(true);
       } else if (label === "team") {
         setInvitedBy(data.invitedBy);
         navigation.navigate("Tabs", { screen: "Home" });
         setTeamId(data.teamID);
-        setVisible(true);
+        setIsVisible(true);
       }
     });
     const response = await news();
@@ -88,8 +98,8 @@ export function Home({ navigation }) {
     setTasksProgress({
       title: t("screens.home.tasksCompleted"),
       reward: "100",
-      total: 1,
-      progress: 0,
+      total: totalTasks,
+      progress: completedTasks,
     });
     setLoader(false);
   };
@@ -151,17 +161,22 @@ export function Home({ navigation }) {
           </ScrollView>
         </>
       )}
+      <VersionModal
+        visible={visible}
+        title={t("components.versionModal.title")}
+        text={t("components.versionModal.subtitle")}
+      />
       <InviteModal
         visible={isVisible}
-        decline={() => setVisible(!isVisible)}
+        decline={() => setIsVisible(!isVisible)}
         accept={() => {
-          setVisible(!isVisible);
+          setIsVisible(!isVisible);
           socket.sendSocket("dark-side", {
             controller: "join_team",
             params: [String(teamId)],
           });
         }}
-        setVisible={setVisible}
+        setVisible={setIsVisible}
         username={invitedBy}
       />
     </>

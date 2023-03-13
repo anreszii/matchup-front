@@ -3,7 +3,7 @@ import { appBackground } from "@/constants/colors.js";
 
 export const controlsStyles = StyleSheet.create({
   inputOutlined: {
-    width:"100%",
+    width: "100%",
     height: 46,
     lineHeight: 24,
     color: "#fff",
@@ -35,7 +35,7 @@ export const controlsStyles = StyleSheet.create({
       placeholder: "#303030",
       text: "#fff",
       primary: "#303030",
-      underlineColor:"transparent",
+      underlineColor: "transparent",
       error: "#FF5A47",
       background: appBackground,
     },
