@@ -25,9 +25,10 @@ export function TeamCreate({ navigation }) {
   const [minRating, setMinRating] = useState('');
 
   useEffect(() => {
-    socket.listenSocket((label, data) => {
+    socket.listenSocket(async (label, data) => {
       if (label === 'create_guild') {
-        console.log(data);
+        AsyncStorage.setItem('guild', JSON.stringify(data.response[0]));
+        navigation.navigate('Tabs', { screen: 'Team' });
       }
     });
   }, []);
