@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import mrp_lvl from "../../mrp_lvl.json";
+import socket from "@/socket";
 import { useCallback } from "react";
 
 export function Profile({ route }) {
@@ -38,6 +39,7 @@ export function Profile({ route }) {
   }, []);
 
   const getUserData = async () => {
+    
     const profile = JSON.parse(await AsyncStorage.getItem("profile"));
     for (const [index, item] of mrp_lvl.entries()) {
       if (
@@ -47,6 +49,18 @@ export function Profile({ route }) {
         setLvl([mrp_lvl[index], index + 1]);
       }
     }
+    socket.listenSocket((label, data) => {
+      if (label === "team"){
+        console.log(data, "team data")
+      }
+    })
+    socket.sendSocket("query", {
+      label: "team",
+      query: {
+        method: "get",
+        model: "Guild"
+      }
+    })
     setUserData(profile[0]);
     setLoader(false);
   };
@@ -91,9 +105,9 @@ export function Profile({ route }) {
           <View style={{ marginBottom: 22 }}>
             <TopUsers refresh={refreshing} />
           </View>
-          {/* <View style={{ marginBottom: 22 }}>
+          <View style={{ marginBottom: 22 }}>
             <Team userData={userData} />
-          </View> */}
+          </View>
           <View style={{ marginBottom: 30 }}>
             {userData && <Prime userData={userData} />}
           </View>
