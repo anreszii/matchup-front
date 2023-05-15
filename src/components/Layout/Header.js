@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { StatusBar, View } from "react-native";
+import { SafeAreaView, StatusBar, View } from "react-native";
 import { containerStyles } from "@/styles/container.js";
 import { headerStyles } from "@/styles/header.js";
-import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { getStatusBarHeight } from "react-native-status-bar-height";
 import { useEffect } from "react";
 
 export function Header({ children, style }) {
-  const [statusBarHeight, setStatusBarHeight] = useState( Platform.OS === 'ios' ? getStatusBarHeight(true) : StatusBar.currentHeight);
+  const [statusBarHeight, setStatusBarHeight] = useState(
+    Platform.OS === "ios" ? getStatusBarHeight(true) : StatusBar.currentHeight
+  );
 
   return (
-    <View
+    <SafeAreaView
       style={{
         ...containerStyles.container,
         ...headerStyles.header,
@@ -18,6 +20,6 @@ export function Header({ children, style }) {
       }}
     >
       {children}
-    </View>
+    </SafeAreaView>
   );
 }

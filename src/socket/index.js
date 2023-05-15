@@ -48,7 +48,6 @@ class WSClient {
       const fr = new FileReader();
       fr.onload = (e) => {
         const { event, used } = JSON.parse(e.target.result);
-        console.log(used)
         let label = JSON.parse(used[0]).label;
         if (label === "unknown") {
           callback(label, used);
@@ -165,6 +164,9 @@ class WSClient {
           callback(label, JSON.parse(used));
         }
         if (label === "get_all_players_found") {
+          callback(label, JSON.parse(used).response);
+        }
+        if (label === "get_some_players") {
           callback(label, JSON.parse(used).response);
         }
       };

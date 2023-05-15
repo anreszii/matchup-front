@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
 
 import { Home } from "@/views/Home.js";
-import Team from "./Team"
+import Team from "./Team";
 import { Tasks } from "@/views/Tasks.js";
 import { Play } from "@/views/Play.js";
 import { Tournaments } from "@/views/Tournaments.js";
@@ -79,15 +79,16 @@ export function Tabs({ route }) {
         initialParams={route}
         options={() => ({
           tabBarButton: false,
+          notShowTabBar: true,
         })}
       />
       <Tab.Screen
         name="Team"
         component={Team}
-        options={({ route }) => ({
-          title: t("tabBar.team"),
-          tabBarIcon: <HomeIcon />,
-          tabBarIconActive: <HomeIconActive />,
+        initialParams={route}
+        options={() => ({
+          tabBarButton: false,
+          notShowTabBar: true,
         })}
       />
       <Tab.Screen
@@ -182,7 +183,7 @@ export function Tabs({ route }) {
           title: "",
         })}
       />
-            <Tab.Screen
+      <Tab.Screen
         name="InvitedMatchLobby"
         component={InvitedMatchLobby}
         options={({ route }) => ({

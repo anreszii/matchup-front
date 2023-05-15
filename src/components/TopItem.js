@@ -56,7 +56,7 @@ export function TopItem({ item, number, navigation }) {
           ></Text>
         </View>
         <View style={styles.topItemRating}>
-          <Text style={styles.topItemRatingText}>{item.ratingPoints}</Text>
+          <Text style={styles.topItemRatingText}>{item.rating}</Text>
           <MRPIcon style={{ marginLeft: 4 }} />
         </View>
       </ImageBackground>
