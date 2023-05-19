@@ -57,13 +57,11 @@ export function Tasks({ navigation }) {
       const week = [];
       const day = [];
       data.map((item) => {
-        item.map((task) => {
-          if (task.expires.expirationType === "day") {
-            day.push(task);
-          } else {
-            week.push(task);
-          }
-        });
+        if (item.expires.expirationType === "day") {
+          day.push(item);
+        } else {
+          week.push(item);
+        }
       });
       setDailyTasks(new Array(JSON.parse(JSON.stringify(day))));
       setWeeklyTasks(new Array(JSON.parse(JSON.stringify(week))));

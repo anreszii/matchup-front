@@ -79,15 +79,16 @@ export function Tabs({ route }) {
         initialParams={route}
         options={() => ({
           tabBarButton: false,
+          notShowTabBar: true,
         })}
       />
       {/*       <Tab.Screen
         name="Team"
         component={Team}
-        options={({ route }) => ({
-          title: t("tabBar.team"),
-          tabBarIcon: <HomeIcon />,
-          tabBarIconActive: <HomeIconActive />,
+        initialParams={route}
+        options={() => ({
+          tabBarButton: false,
+          notShowTabBar: true,
         })}
       /> */}
       <Tab.Screen

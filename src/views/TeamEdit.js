@@ -13,7 +13,7 @@ import { HeaderBack } from "@/components/Layout/HeaderBack.js";
 import { HeaderTitle } from "@/components/Layout/HeaderTitle.js";
 
 export function TeamEdit({ navigation }) {
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const options = ["1", "2", "3"];
 
   return (
@@ -22,17 +22,35 @@ export function TeamEdit({ navigation }) {
         <HeaderBack />
         <HeaderTitle title={t("headerTitles.TeamEdit")} />
       </Header>
-      <ScrollView contentContainerStyle={[containerStyles.container, containerStyles.containerPage, styles.container]}>
-        <ChangeAvatar/>
+      <ScrollView
+        contentContainerStyle={[
+          containerStyles.container,
+          containerStyles.containerPage,
+          styles.container,
+        ]}
+      >
+        <ChangeAvatar />
         <Input label={t("screens.teamEdit.teamName")} mb={16} />
         <Input label={t("screens.teamEdit.teamTag")} mb={16} />
-        <Select label={t("screens.teamEdit.playersCount")} options={options} mb={16} />
-        <Select label={t("screens.teamEdit.access")} options={options} mb={16} />
-        <Select label={t("screens.teamEdit.minRating")} options={options} mb={16} />
+        <Select
+          label={t("screens.teamEdit.playersCount")}
+          options={options}
+          mb={16}
+        />
+        <Select
+          label={t("screens.teamEdit.access")}
+          options={options}
+          mb={16}
+        />
+        <Select
+          label={t("screens.teamEdit.minRating")}
+          options={options}
+          mb={16}
+        />
         <Button
-          style={{marginTop: "auto"}}
+          style={{ marginTop: "auto" }}
           title={t("labels.logOut")}
-          onPress={() => navigation.navigate("Tabs", {screen: "Game"})}
+          onPress={() => navigation.navigate("Tabs", { screen: "Game" })}
         />
       </ScrollView>
     </>

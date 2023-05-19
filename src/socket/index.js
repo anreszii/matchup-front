@@ -175,6 +175,9 @@ class WSClient {
         if (label === 'get_all_players_found') {
           callback(label, JSON.parse(used).response);
         }
+        if (label === "get_some_players") {
+          callback(label, JSON.parse(used).response);
+        }
       };
       fr.readAsText(event.data);
     });

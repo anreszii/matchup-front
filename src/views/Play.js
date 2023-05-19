@@ -123,7 +123,9 @@ export function Play({ navigation }) {
       params: [],
     });
     const userData = await AsyncStorage.getItem("profile");
-    setPremium(JSON.parse(userData)[0].premium.isPremium === true ? false : true);
+    setPremium(
+      JSON.parse(userData)[0].premium.isPremium === true ? false : true
+    );
     setLobby([
       {
         name: JSON.parse(userData)[0].profile.username,
@@ -166,6 +168,16 @@ export function Play({ navigation }) {
           description: t("screens.play.modes.premierLeagueDescription"),
           needSubscription: false,
           image: require("assets/play-item-Pro_League.png"),
+          minimumLevel: 0,
+          lockedMessage: t("screens.play.modes.premierLeagueLockedMessage"),
+          mode: "classic",
+          startg: "rating",
+        },
+        {
+          name: t("screens.play.modes.masterLeague"),
+          description: t("screens.play.modes.masterLeagueDescription"),
+          needSubscription: false,
+          image: require("assets/play-item-Premier_League.png"),
           minimumLevel: 0,
           isPremium: premium,
           lockedMessage: t("screens.play.modes.premierLeagueLockedMessage"),

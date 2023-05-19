@@ -19,27 +19,32 @@ export function UsersModal({ visible, setVisible, friends, inviteToLobby }) {
         <View style={styles.contentContainer}>
           <Text style={styles.title}>{t("labels.friends")}</Text>
         </View>
-        <ScrollView>
-          {friends &&
-            friends.map((user, index) => (
-              <View
-                key={index}
-                style={{
-                  ...styles.userContainer,
-                  marginBottom: friends.length - 1 === index ? 0 : 16,
-                }}
-              >
-                <Image style={styles.userAvatar} source={{ uri: user.image }} />
-                <Text style={styles.userName}>{user.name}</Text>
-                <TouchableOpacity
-                  style={styles.userButton}
-                  onPress={() => inviteToLobby(user)}
-                  disabled={user.isInvited}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View>
+            {friends &&
+              friends.map((user, index) => (
+                <View
+                  key={index}
+                  style={{
+                    ...styles.userContainer,
+                    marginBottom: friends.length - 1 === index ? 0 : 16,
+                  }}
                 >
-                  {user.isInvited ? <InvitedIcon /> : <InviteIcon />}
-                </TouchableOpacity>
-              </View>
-            ))}
+                  <Image
+                    style={styles.userAvatar}
+                    source={{ uri: user.image }}
+                  />
+                  <Text style={styles.userName}>{user.name}</Text>
+                  <TouchableOpacity
+                    style={styles.userButton}
+                    onPress={() => inviteToLobby(user)}
+                    disabled={user.isInvited}
+                  >
+                    {user.isInvited ? <InvitedIcon /> : <InviteIcon />}
+                  </TouchableOpacity>
+                </View>
+              ))}
+          </View>
         </ScrollView>
       </View>
     </Modal>
@@ -55,10 +60,11 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   container: {
-    maxWidth: 335,
+    minWidth: 335,
+    minHeight: 335,
+    maxHeight: 500,
     padding: 35,
     alignItems: "center",
-    justifySelf: "center",
     borderColor: "#373D42",
     borderWidth: 2,
     borderRadius: 24,
