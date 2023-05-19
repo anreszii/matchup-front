@@ -49,7 +49,6 @@ class WSClient {
       fr.onload = (e) => {
         const { event, used } = JSON.parse(e.target.result);
         let label = JSON.parse(used[0]).label;
-        console.log(used);
         if (label === 'unknown') {
           callback(label, used);
         }

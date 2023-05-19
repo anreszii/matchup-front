@@ -22,7 +22,7 @@ import socket from '@/socket';
 
 export default function Team({ navigate }) {
   const [message, setMessage] = useState('');
-  const [participants, setParticipants] = useState([]);
+  const [participants, setParticipants] = useState({});
   const [guild, setGuild] = useState();
   const [messages, setMessages] = useState([]);
   const [visible, setvisible] = useState(false);
@@ -35,18 +35,15 @@ export default function Team({ navigate }) {
     socket.listenSocket((label, data) => {
       if (label === 'chat_history') {
         console.log(data);
-        setMessages([...data.response]);
       }
       if (label === 'message') {
         console.log(data);
-        setMessages((prev) => [...prev, ...data]);
       }
     });
     (async () => {
       const guildTemp = JSON.parse(await AsyncStorage.getItem('guild'));
       setGuild(guildTemp);
       setParticipants(guildTemp.members);
-      console.log('i am good as fuck');
       socket.sendSocket('query', {
         label: 'chat_history',
         query: {
@@ -73,7 +70,8 @@ export default function Team({ navigate }) {
       setMessage('');
     }
   };
-  console.log(Object.keys(participants), 'participants');
+  console.log(messages, 'messages');
+  console.log(participants, 'participants');
   return (
     <ScrollView>
       <View
@@ -104,7 +102,7 @@ export default function Team({ navigate }) {
         <TextComponent style={styles.grayText}>Чат команды</TextComponent>
       </View>
       <ScrollView style={styles.chats} bounces={false}>
-        {messages.length ? (
+        {/*         {messages.length ? (
           messages.map((e) => {
             return <TeamChatItem author={e.author} text={e.text} />;
           })
@@ -112,7 +110,7 @@ export default function Team({ navigate }) {
           <View>
             <Text>у вас пока нет сообщений в гильдии</Text>
           </View>
-        )}
+        )} */}
       </ScrollView>
       <View style={styles.inputContainer}>
         <TextInput
