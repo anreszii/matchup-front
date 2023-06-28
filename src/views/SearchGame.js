@@ -28,13 +28,6 @@ export function SearchGame({ navigation }) {
 
   useEffect(() => {
     (async () => {
-      setInterval(() => {
-        socket.sendSocket("dark-side", {
-          label: "get_all_players_found",
-          controller: "get_global_players_count",
-          params: [],
-        });
-      }, 1000);
       socket.listenSocket(async (label, data) => {
         if (label === "leave") {
           setVisible(false);
@@ -48,6 +41,11 @@ export function SearchGame({ navigation }) {
         if (label === "sync") {
           setVisible(false);
           setCountPlayers(data.players.length);
+          socket.sendSocket("dark-side", {
+            label: "get_all_players_found",
+            controller: "get_global_players_count",
+            params: [],
+          });
         }
         if (label === "ready") {
           setCountPlayers(data.players.length);

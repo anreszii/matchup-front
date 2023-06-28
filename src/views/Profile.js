@@ -39,7 +39,6 @@ export function Profile({ route }) {
   }, []);
 
   const getUserData = async () => {
-    
     const profile = JSON.parse(await AsyncStorage.getItem("profile"));
     for (const [index, item] of mrp_lvl.entries()) {
       if (
@@ -49,18 +48,6 @@ export function Profile({ route }) {
         setLvl([mrp_lvl[index], index + 1]);
       }
     }
-    socket.listenSocket((label, data) => {
-      if (label === "team"){
-        console.log(data, "team data")
-      }
-    })
-    socket.sendSocket("query", {
-      label: "team",
-      query: {
-        method: "get",
-        model: "Guild"
-      }
-    })
     setUserData(profile[0]);
     setLoader(false);
   };

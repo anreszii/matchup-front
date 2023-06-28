@@ -34,7 +34,7 @@ export function CroppingAvatar({ visible, setVisible, setAvatar, uri, width }) {
       { format: SaveFormat.JPEG }
     );
     setAvatar(result.uri);
-    setVisible(false)
+    setVisible(false);
   };
 
   return (
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     marginTop: "auto",
     marginBottom: "auto",
+    alignItems: "center",
   },
   text: {
     color: "#fff",

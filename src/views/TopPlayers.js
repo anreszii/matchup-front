@@ -112,12 +112,11 @@ export function TopPlayers({ navigation }) {
             />
           }
           renderItem={(item) => (
-            <View>
+            <View key={item.index + 1}>
               <TopItem
                 navigation={navigation}
                 item={item.item}
                 number={item.index + 1}
-                key={item.index + 1}
               />
             </View>
           )}

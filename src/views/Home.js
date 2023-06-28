@@ -26,6 +26,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import socket from "@/socket";
 import { VersionModal } from "@/components/Modals/VersionModal";
 import { completed, total } from "@/constants/completedTasks";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export function Home({ navigation }) {
   const { t, i18n } = useTranslation();
@@ -37,9 +38,8 @@ export function Home({ navigation }) {
   const [teamId, setTeamId] = useState(null);
   const [totalTasks, setTotalTasks] = useState(total);
   const [completedTasks, setCompletedTasks] = useState(completed);
-  const [statusBarHeight, setStatusBarHeight] = useState(
-    Platform.OS === "ios" ? getStatusBarHeight(true) : StatusBar.currentHeight
-  );
+  const insets = useSafeAreaInsets();
+  const statusBarHeight = insets.top;
   const [invitedBy, setInvitedBy] = useState("");
 
   const [tasksProgress, setTasksProgress] = useState({
@@ -70,13 +70,9 @@ export function Home({ navigation }) {
         navigation.navigate("Tabs", { screen: "Game" });
       }
       if (label === "invite") {
+        console.log(data);
         navigation.navigate("Tabs", { screen: "Home" });
         setTeamId(data.teamId);
-        setIsVisible(true);
-      } else if (label === "team") {
-        setInvitedBy(data.invitedBy);
-        navigation.navigate("Tabs", { screen: "Home" });
-        setTeamId(data.teamID);
         setIsVisible(true);
       }
     });
@@ -116,7 +112,7 @@ export function Home({ navigation }) {
         style={{
           ...styles.header,
           backgroundColor: "transparent",
-          minHeight: 54 + statusBarHeight,
+          minHeight: statusBarHeight + 30,
         }}
       >
         <HeaderRefill />

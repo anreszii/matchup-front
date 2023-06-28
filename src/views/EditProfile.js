@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { Header } from "@/components/Layout/Header.js";
 import { HeaderBack } from "@/components/Layout/HeaderBack.js";
 import { HeaderTitle } from "@/components/Layout/HeaderTitle.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import socket from "@/socket";
 import { EditModal } from "../components/Modals/EditModal";

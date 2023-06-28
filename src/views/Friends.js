@@ -14,7 +14,7 @@ import { SearchIcon } from "@/icons";
 import { TextInput } from "react-native-paper";
 import { UserDefault, AddUserIcon, DeleteUserIcon } from "@/icons";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Header } from "@/components/Layout/Header.js";
@@ -37,6 +37,8 @@ export function Friends({ route, navigation }) {
   const [visible, setVisible] = useState(false);
   const [loader, setLoader] = useState(false);
   const [searchFriend, setSearchFriends] = useState([]);
+  const username = useRef("");
+  const [flag, setFlag] = useState(true);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -47,30 +49,22 @@ export function Friends({ route, navigation }) {
 
   useEffect(() => {
     (async () => {
-      setFriends(JSON.parse(new Array(await AsyncStorage.getItem("friends"))));
-      setSubscribers(
-        JSON.parse(new Array(await AsyncStorage.getItem("subscribers")))
-      );
-    })();
-  }, [route]);
-
-  useEffect(() => {
-    return () => setSearch("");
-  }, [route]);
-
-  useEffect(() => {
-    setLoader(true);
-    setSearchUser([]);
-    getUsers(search);
-  }, [search]);
-
-  const getUsers = async (username) => {
-    const userName = await AsyncStorage.getItem("user");
-    if (timeoutID !== null) {
-      clearTimeout(timeoutID);
-    }
-    const timeout = setTimeout(() => {
-      socket.listenSocket((label, data) => {
+      const userName = await AsyncStorage.getItem("user");
+      socket.listenSocket(async (label, data) => {
+        if (label === "del_request") {
+          const friendsNew = [...friends];
+          const index = friendsNew.findIndex(
+            (element) => element.name === username.current
+          );
+          const subscriber = friendsNew.splice(index, 1);
+          setFriends(friendsNew);
+          console.log(username.current, index, friendsNew);
+          setSubscribers([...subscribers, subscriber]);
+          setFlag(!flag);
+        }
+        if (label === "add_friends") {
+          getRelations();
+        }
         if (label === "get_all_user") {
           setSearchUser([]);
           setSearchFriends([]);
@@ -99,10 +93,34 @@ export function Friends({ route, navigation }) {
               }
             }
           });
-          socket.disconnectSocket();
           setLoader(false);
         }
       });
+
+      setFriends(JSON.parse(new Array(await AsyncStorage.getItem("friends"))));
+      setSubscribers(
+        JSON.parse(new Array(await AsyncStorage.getItem("subscribers")))
+      );
+    })();
+  }, []);
+
+  useEffect(() => {
+    setFlag(!flag);
+    return () => setSearch("");
+  }, [route]);
+
+  useEffect(() => {
+    setLoader(true);
+    setSearchUser([]);
+    getUsers(search);
+  }, [search]);
+
+  const getUsers = async (userName) => {
+    username.current = userName;
+    if (timeoutID !== null) {
+      clearTimeout(timeoutID);
+    }
+    const timeout = setTimeout(() => {
       if (search !== "" && search !== " ") {
         socket.sendSocket("query", {
           label: "get_all_user",
@@ -119,25 +137,8 @@ export function Friends({ route, navigation }) {
     }, 1000);
     setTimeoutID(timeout);
   };
-
   const delRequest = async (username) => {
     const user = await AsyncStorage.getItem("user");
-    socket.listenSocket(async (label, data) => {
-      if (label === "del_request") {
-        getRelations();
-        socket.disconnectSocket();
-      }
-      if (label === "get_friends") {
-        await AsyncStorage.setItem("friends", JSON.stringify(data));
-        setFriends(data);
-        socket.disconnectSocket();
-      }
-      if (label === "get_subscribers") {
-        await AsyncStorage.setItem("subscribers", JSON.stringify(data));
-        setSubscribers(data);
-        socket.disconnectSocket();
-      }
-    });
     socket.sendSocket("syscall", {
       label: "del_request",
       query: {
@@ -154,22 +155,6 @@ export function Friends({ route, navigation }) {
     ].isRequested = true;
     setSearchUser([...searchUser]);
     const user = await AsyncStorage.getItem("user");
-    socket.listenSocket(async (label, data) => {
-      if (label === "add_friends") {
-        getRelations();
-        socket.disconnectSocket();
-      }
-      if (label === "get_friends") {
-        await AsyncStorage.setItem("friends", JSON.stringify(data));
-        setFriends(data);
-        socket.disconnectSocket();
-      }
-      if (label === "get_subscribers") {
-        await AsyncStorage.setItem("subscribers", JSON.stringify(data));
-        setSubscribers(data);
-        socket.disconnectSocket();
-      }
-    });
     socket.sendSocket("syscall", {
       label: "add_friends",
       query: {
@@ -191,7 +176,10 @@ export function Friends({ route, navigation }) {
         />
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate("Tabs", { screen: "FriendsRequests" })
+            navigation.navigate("Tabs", {
+              screen: "FriendsRequests",
+              creature: [subscribers, setFriends, friends, setSubscribers],
+            })
           }
           style={headerStyles.headerRight}
         >
@@ -258,12 +246,15 @@ export function Friends({ route, navigation }) {
                         >
                           <Image
                             style={styles.userAvatar}
-                            source={{ uri: user.image }}
+                            source={{ uri: user?.image }}
                           />
                           <Text style={styles.userName}>{user.name}</Text>
                           <TouchableOpacity
                             style={styles.userAction}
-                            onPress={() => setVisible(true)}
+                            onPress={() => {
+                              username.current = user.name;
+                              setVisible(true);
+                            }}
                           >
                             <DeleteUserIcon style={styles.user} />
                           </TouchableOpacity>
@@ -273,9 +264,9 @@ export function Friends({ route, navigation }) {
                           setVisible={setVisible}
                           title={t("components.labelsFriends.sure")}
                           subtitle={`${t("components.labelsFriends.one")} \n${
-                            user.name
+                            username.current
                           } ${t("components.labelsFriends.two")}`}
-                          func={() => delRequest(user.name)}
+                          func={() => delRequest(username)}
                         ></BottomQuestModal>
                       </View>
                     ))}
@@ -363,40 +354,47 @@ export function Friends({ route, navigation }) {
             ) : (
               <>
                 {friends.length
-                  ? friends.map((user, index) => (
-                      <View key={index}>
-                        <TouchableOpacity
-                          style={styles.user}
-                          onPress={() =>
-                            navigation.navigate("Tabs", {
-                              screen: "AnotherUser",
-                              creature: user.name,
-                            })
-                          }
-                        >
-                          <Image
-                            style={styles.userAvatar}
-                            source={{ uri: user.image }}
-                          />
-                          <Text style={styles.userName}>{user.name}</Text>
-                          <TouchableOpacity
-                            style={styles.userAction}
-                            onPress={() => setVisible(true)}
-                          >
-                            <DeleteUserIcon style={styles.user} />
-                          </TouchableOpacity>
-                        </TouchableOpacity>
-                        <BottomQuestModal
-                          visible={visible}
-                          setVisible={setVisible}
-                          title={t("components.labelsFriends.sure")}
-                          subtitle={`${t("components.labelsFriends.one")} \n${
-                            user.name
-                          } ${t("components.labelsFriends.two")}`}
-                          func={() => delRequest(user.name)}
-                        ></BottomQuestModal>
-                      </View>
-                    ))
+                  ? friends.map((user, index) => {
+                      return (
+                        <View key={user.image}>
+                          <View>
+                            <TouchableOpacity
+                              style={styles.user}
+                              onPress={() =>
+                                navigation.navigate("Tabs", {
+                                  screen: "AnotherUser",
+                                  creature: user.name,
+                                })
+                              }
+                            >
+                              <Image
+                                style={styles.userAvatar}
+                                source={{ uri: user?.image }}
+                              />
+                              <Text style={styles.userName}>{user.name}</Text>
+                              <TouchableOpacity
+                                style={styles.userAction}
+                                onPress={() => {
+                                  (username.current = user.name),
+                                    setVisible(true);
+                                }}
+                              >
+                                <DeleteUserIcon style={styles.user} />
+                              </TouchableOpacity>
+                            </TouchableOpacity>
+                          </View>
+                          <BottomQuestModal
+                            visible={visible}
+                            setVisible={setVisible}
+                            title={t("components.labelsFriends.sure")}
+                            subtitle={`${t("components.labelsFriends.one")} \n${
+                              username.current
+                            } ${t("components.labelsFriends.two")}`}
+                            func={() => delRequest(username.current)}
+                          ></BottomQuestModal>
+                        </View>
+                      );
+                    })
                   : ""}
               </>
             )}

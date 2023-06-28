@@ -11,7 +11,6 @@ socket.listenSocket(async (label, data) => {
     await AsyncStorage.setItem('profile', JSON.stringify(data));
     socket.disconnectSocket();
     getTasksData();
-    getLeaderboards();
     getRelations();
     getMatchHistory();
   }
@@ -19,16 +18,11 @@ socket.listenSocket(async (label, data) => {
     await AsyncStorage.setItem('completed_tasks', JSON.stringify(data));
     socket.disconnectSocket();
   }
-  if (label === 'get_top_players') {
-    await AsyncStorage.setItem('top', JSON.stringify(data));
-    socket.disconnectSocket();
-  }
   if (label === 'get_friends') {
     await AsyncStorage.setItem('friends', JSON.stringify(data));
     socket.disconnectSocket();
   }
   if (label === 'get_team_data') {
-    console.log(data, 'team data');
     await AsyncStorage.setItem('team', JSON.stringify(data));
   }
   if (label === 'get_subscribers') {
@@ -84,17 +78,6 @@ export const getTasksData = () => {
         function: 'getCompletedDailyTasksCount',
         params: [],
       },
-    },
-  });
-};
-
-export const getLeaderboards = () => {
-  socket.sendSocket('query', {
-    label: 'get_top_players',
-    query: {
-      method: 'get',
-      model: 'Leaderboard',
-      filter: { type: 'user' },
     },
   });
 };

@@ -1,13 +1,13 @@
-import version from '@/constants/version';
-import { REACT_APP_WS_URL } from '@env';
+import version from "@/constants/version";
+import { REACT_APP_WS_URL } from "@env";
 
 class WSClient {
   constructor(url, tokenData) {
-    this.token = '';
+    this.token = "";
     this.observers = {};
     // не убирайте эту строку, без неё не работает приложение, пожалуйста - спасибо
-    this.socket = new WebSocket('wss://barakobama.online:81/client');
-    this.socket.binaryType = 'blob';
+    this.socket = new WebSocket("wss://xn--80aahab1ac3b.fun:81/client");
+    this.socket.binaryType = "blob";
     this.isOpened = false;
     this.stack = [];
 
@@ -15,16 +15,16 @@ class WSClient {
   }
 
   initEvents() {
-    this.socket.addEventListener('open', (event) => {
+    this.socket.addEventListener("open", (event) => {
       this.isOpened = true;
-      console.log('openned');
+      console.log("openned");
       if (this.token) {
-        console.log('token existing');
-        this.send('authorize');
+        console.log("token existing");
+        this.send("authorize");
         this.sendStack();
       }
     });
-    this.socket.addEventListener('message', (event) => {
+    this.socket.addEventListener("message", (event) => {
       const fr = new FileReader();
 
       fr.onload = (e) => {
@@ -33,146 +33,146 @@ class WSClient {
       };
 
       fr.readAsText(event.data);
-      this.socket.removeEventListener('message');
+      this.socket.removeEventListener("message");
     });
-    this.socket.addEventListener('close', (event) => {
-      console.log('on close', event);
+    this.socket.addEventListener("close", (event) => {
+      console.log("on close", event);
     });
 
-    this.socket.addEventListener('error', (event) => {
-      console.log('on error', event);
+    this.socket.addEventListener("error", (event) => {
+      console.log("on error", event);
     });
   }
   listenSocket(callback) {
-    this.socket.addEventListener('message', (event) => {
+    this.socket.addEventListener("message", (event) => {
       const fr = new FileReader();
       fr.onload = (e) => {
         const { event, used } = JSON.parse(e.target.result);
         let label = JSON.parse(used[0]).label;
-        if (label === 'unknown') {
+        if (label === "unknown") {
           callback(label, used);
         }
-        if (label === 'get_user_data') {
+        if (label === "get_user_data") {
           if (JSON.parse(used[0]).response) {
             this.attachObserver(label, JSON.parse(used[0]).response);
             callback(label, JSON.parse(used[0]).response);
           }
         }
-        if (label === 'prepare') {
+        if (label === "prepare") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'completed_tasks') {
+        if (label === "completed_tasks") {
           callback(label, JSON.parse(used[0]).response);
         }
-        if (label === 'get_avi_users') {
+        if (label === "get_avi_users") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'get_for_user') {
+        if (label === "get_for_user") {
           callback(label, JSON.parse(used[0]).response);
         }
-        if (label === 'get_avi') {
+        if (label === "get_avi") {
           callback(label, JSON.parse(used[0]).response);
         }
-        if (label === 'validate_pass') {
+        if (label === "validate_pass") {
           callback(label, JSON.parse(used[0]).status);
         }
-        if (label === 'upload_image') {
+        if (label === "upload_image") {
           callback(label, JSON.parse(used[0]).response);
         }
-        if (label === 'get_top_players') {
+        if (label === "get_top_players") {
           callback(label, JSON.parse(used[0]).response);
         }
-        if (label === 'get_friends') {
+        if (label === "get_friends") {
           callback(label, JSON.parse(used[0]).response);
         }
-        if (label === 'get_subscribers') {
+        if (label === "get_subscribers") {
           callback(label, JSON.parse(used[0]).response);
         }
-        if (label === 'add_friends') {
+        if (label === "add_friends") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'del_request') {
+        if (label === "del_request") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'get_all_user') {
+        if (label === "get_all_user") {
           callback(label, JSON.parse(used[0]).response);
         }
-        if (label === 'get_another_user') {
+        if (label === "get_another_user") {
           callback(label, JSON.parse(used[0]).response);
         }
-        if (label === 'get_history_match') {
+        if (label === "get_history_match") {
           callback(label, JSON.parse(used).response[0]);
         }
-        if (label === 'find-lobby') {
+        if (label === "find-lobby") {
           callback(label, JSON.parse(used[0]).response);
         }
-        if (label === 'leave-lobby') {
+        if (label === "leave-lobby") {
           callback(label, JSON.parse(used[0]).response);
         }
-        if (label === 'sync') {
+        if (label === "sync") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'ready') {
+        if (label === "ready") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'vote') {
+        if (label === "vote") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'get_guild_data') {
+        if (label === "get_guild_data") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'invite_to_lobby') {
+        if (label === "invite_to_lobby") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'chat_history') {
+        if (label === "chat_history") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'create_team') {
+        if (label === "create_team") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'invite') {
+        if (label === "invite") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'check-team') {
+        if (label === "check-team") {
           callback(label, JSON.parse(used[0]).response);
         }
-        if (label === 'teams') {
+        if (label === "teams") {
           callback(label, JSON.parse(used[0]).response);
         }
-        if (label === 'message') {
+        if (label === "message") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'sync-lobby') {
+        if (label === "sync-lobby") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'join_team') {
+        if (label === "join_team") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'team') {
+        if (label === "team") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'start') {
+        if (label === "start") {
           callback(label, JSON.parse(used[0]));
         }
-        if (label === 'get_another_history_match') {
+        if (label === "get_another_history_match") {
           callback(label, JSON.parse(used).response[0]);
         }
-        if (label === 'get_avi_users') {
+        if (label === "get_avi_users") {
           callback(label, JSON.parse(used).response);
         }
-        if (label === 'get_ava_users') {
+        if (label === "get_ava_users") {
           callback(label, JSON.parse(used).response);
         }
-        if (label === 'leave_team') {
+        if (label === "leave_team") {
           callback(label, JSON.parse(used));
         }
-        if (label === 'leave') {
+        if (label === "leave") {
           callback(label, JSON.parse(used));
         }
-        if (label === 'auth') {
+        if (label === "auth") {
           callback(label, JSON.parse(used));
         }
-        if (label === 'get_all_players_found') {
+        if (label === "get_all_players_found") {
           callback(label, JSON.parse(used).response);
         }
         if (label === "get_some_players") {
@@ -183,7 +183,7 @@ class WSClient {
     });
   }
   disconnectSocket() {
-    this.socket.removeEventListener('message');
+    this.socket.removeEventListener("message");
   }
   sendSocket(event, payload) {
     this.send(event, payload);
@@ -191,7 +191,7 @@ class WSClient {
 
   updateToken(token) {
     this.token = token;
-    this.send('authorize', { label: 'auth', version: version });
+    this.send("authorize", { label: "auth", version: version });
     this.sendStack();
   }
 

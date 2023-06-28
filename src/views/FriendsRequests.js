@@ -18,32 +18,46 @@ import { useEffect } from "react";
 import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getRelations } from "../requests";
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs([
+  "Non-serializable values were found in the navigation state",
+]);
 
 export function FriendsRequests({ route }) {
   const { t, i18n } = useTranslation();
   const [subscribers, setSubscribers] = useState([]);
+  const [flag, setFlag] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      setSubscribers(
-        JSON.parse(new Array(await AsyncStorage.getItem("subscribers")))
-      );
-    })();
+    const subscriberss = route.params.params.creature[0];
+    subscriberss.length &&
+      subscriberss.map((el) => {
+        if (el instanceof Array) {
+          setSubscribers((subscribers) => [...subscribers, el[0]]);
+        } else {
+          setSubscribers((subscribers) => [...subscribers, el]);
+        }
+      });
   }, [route]);
 
   const addToFriends = async (username) => {
     const user = await AsyncStorage.getItem("user");
     socket.listenSocket(async (label, data) => {
       if (label === "add_friends") {
-        getRelations();
-        socket.disconnectSocket();
-      }
-      if (label === "del_request") {
-        getRelations();
-        socket.disconnectSocket();
-      }
-      if (label === "get_subscribers") {
-        setSubscribers(data);
+        const newSubscribers = subscribers;
+        console.log(newSubscribers);
+        const index = newSubscribers.findIndex((el) => el.name === username);
+        const friendsNew = newSubscribers[index];
+        console.log(index, friendsNew);
+        route.params.params.creature[1]([
+          ...route.params.params.creature[2],
+          friendsNew,
+        ]);
+        newSubscribers.splice(index, 1);
+        setSubscribers(newSubscribers);
+        route.params.params.creature[3](newSubscribers);
+        setFlag(!flag);
         socket.disconnectSocket();
       }
     });
@@ -53,17 +67,6 @@ export function FriendsRequests({ route }) {
         model: "User",
         filter: { "profile.username": user },
         execute: { function: "addRelation", params: [username] },
-      },
-    });
-  };
-  const delRequest = async (username) => {
-    const user = await AsyncStorage.getItem("user");
-    socket.sendSocket("syscall", {
-      label: "del_request",
-      query: {
-        model: "User",
-        filter: { "profile.username": user },
-        execute: { function: "dropRelation", params: [username] },
       },
     });
   };
@@ -77,18 +80,20 @@ export function FriendsRequests({ route }) {
       <ScrollView
         style={[containerStyles.container, containerStyles.containerPage]}
       >
-        {subscribers.map((user, index) => (
-          <View key={index} style={styles.user}>
-            <Image style={styles.userAvatar} source={{ uri: user.image }} />
-            <Text style={styles.userName}>{user.name}</Text>
-            <TouchableOpacity
-              style={styles.userAction}
-              onPress={() => addToFriends(user.name)}
-            >
-              <AddUserIcon style={styles.icon} />
-            </TouchableOpacity>
-          </View>
-        ))}
+        {subscribers.length
+          ? subscribers.map((user, index) => (
+              <View key={index} style={styles.user}>
+                <Image style={styles.userAvatar} source={{ uri: user.image }} />
+                <Text style={styles.userName}>{user.name}</Text>
+                <TouchableOpacity
+                  style={styles.userAction}
+                  onPress={() => addToFriends(user.name)}
+                >
+                  <AddUserIcon style={styles.icon} />
+                </TouchableOpacity>
+              </View>
+            ))
+          : ""}
       </ScrollView>
     </>
   );
@@ -117,7 +122,7 @@ const styles = StyleSheet.create({
   },
   userAction: {
     marginLeft: "auto",
-    marginBottom: -16
+    marginBottom: -16,
   },
   userActionAccept: {
     marginLeft: 20,
