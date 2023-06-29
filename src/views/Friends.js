@@ -6,25 +6,26 @@ import {
   Image,
   RefreshControl,
   ActivityIndicator,
-} from 'react-native';
-import { Text } from 'ui/Text.js';
-import { containerStyles } from '@/styles/container.js';
-import { Input } from 'ui/Input.js';
-import { SearchIcon } from '@/icons';
-import { TextInput } from 'react-native-paper';
-import { UserDefault, AddUserIcon, DeleteUserIcon } from '@/icons';
-import { useTranslation } from 'react-i18next';
-import { useEffect, useRef, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+} from "react-native";
+import { Text } from "ui/Text.js";
+import { containerStyles } from "@/styles/container.js";
+import { Input } from "ui/Input.js";
+import { SearchIcon } from "@/icons";
+import { TextInput } from "react-native-paper";
+import { UserDefault, AddUserIcon, DeleteUserIcon } from "@/icons";
+import { useTranslation } from "react-i18next";
+import { useEffect, useMemo, useRef, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { Header } from '@/components/Layout/Header.js';
-import { HeaderBack } from '@/components/Layout/HeaderBack.js';
-import { HeaderTitle } from '@/components/Layout/HeaderTitle.js';
-import { headerStyles } from '@/styles/header.js';
-import socket from '@/socket';
-import { useCallback } from 'react';
-import { getRelations } from '../requests';
-import { BottomQuestModal } from '@/components/Modals/BottomQuestModal.js';
+import { Header } from "@/components/Layout/Header.js";
+import { HeaderBack } from "@/components/Layout/HeaderBack.js";
+import { HeaderTitle } from "@/components/Layout/HeaderTitle.js";
+import { headerStyles } from "@/styles/header.js";
+import socket from "@/socket";
+import { useCallback } from "react";
+import { getRelations } from "../requests";
+import { BottomQuestModal } from "@/components/Modals/BottomQuestModal.js";
+import { FriendsContext, RelationContext, SubscribersContext } from "@/context";
 
 export function Friends({ route, navigation }) {
   const { t, i18n } = useTranslation();
@@ -40,14 +41,14 @@ export function Friends({ route, navigation }) {
     friendsRef.current = subs;
     _setFriends(subs);
   };
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [searchUser, setSearchUser] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [timeoutID, setTimeoutID] = useState(null);
   const [visible, setVisible] = useState(false);
   const [loader, setLoader] = useState(false);
   const [searchFriend, setSearchFriends] = useState([]);
-  const username = useRef('');
+  const username = useRef("");
   const [flag, setFlag] = useState(true);
 
   const onRefresh = useCallback(() => {
@@ -59,9 +60,9 @@ export function Friends({ route, navigation }) {
 
   useEffect(() => {
     (async () => {
-      const userName = await AsyncStorage.getItem('user');
+      const userName = await AsyncStorage.getItem("user");
       socket.listenSocket(async (label, data) => {
-        if (label === 'del_request') {
+        if (label === "del_request") {
           console.log(friendsRef.current);
           const index = friends.findIndex(
             (element) => element.name === username.current
@@ -71,10 +72,10 @@ export function Friends({ route, navigation }) {
           setSubscribers([...subscribersRef.current, subscriber]);
           setFlag(!flag);
         }
-        if (label === 'add_friends') {
+        if (label === "add_friends") {
           getRelations();
         }
-        if (label === 'get_all_user') {
+        if (label === "get_all_user") {
           setSearchUser([]);
           setSearchFriends([]);
           data.map((user) => {
@@ -106,16 +107,16 @@ export function Friends({ route, navigation }) {
         }
       });
 
-      setFriends(JSON.parse(new Array(await AsyncStorage.getItem('friends'))));
+      setFriends(JSON.parse(new Array(await AsyncStorage.getItem("friends"))));
       setSubscribers(
-        JSON.parse(new Array(await AsyncStorage.getItem('subscribers')))
+        JSON.parse(new Array(await AsyncStorage.getItem("subscribers")))
       );
     })();
   }, []);
 
   useEffect(() => {
     setFlag(!flag);
-    return () => setSearch('');
+    return () => setSearch("");
   }, [route]);
 
   useEffect(() => {
@@ -130,30 +131,30 @@ export function Friends({ route, navigation }) {
       clearTimeout(timeoutID);
     }
     const timeout = setTimeout(() => {
-      if (search !== '' && search !== ' ') {
-        socket.sendSocket('query', {
-          label: 'get_all_user',
+      if (search !== "" && search !== " ") {
+        socket.sendSocket("query", {
+          label: "get_all_user",
           query: {
-            method: 'get',
-            model: 'User',
-            filter: { 'profile.username': { $regex: username } },
+            method: "get",
+            model: "User",
+            filter: { "profile.username": { $regex: username } },
           },
         });
       }
-      if (search === '') {
+      if (search === "") {
         setLoader(false);
       }
     }, 1000);
     setTimeoutID(timeout);
   };
   const delRequest = async (username) => {
-    const user = await AsyncStorage.getItem('user');
-    socket.sendSocket('syscall', {
-      label: 'del_request',
+    const user = await AsyncStorage.getItem("user");
+    socket.sendSocket("syscall", {
+      label: "del_request",
       query: {
-        model: 'User',
-        filter: { 'profile.username': user },
-        execute: { function: 'dropRelation', params: [username] },
+        model: "User",
+        filter: { "profile.username": user },
+        execute: { function: "dropRelation", params: [username] },
       },
     });
   };
@@ -163,37 +164,43 @@ export function Friends({ route, navigation }) {
       searchUser.findIndex((el) => el.username === username)
     ].isRequested = true;
     setSearchUser([...searchUser]);
-    const user = await AsyncStorage.getItem('user');
-    socket.sendSocket('syscall', {
-      label: 'add_friends',
+    const user = await AsyncStorage.getItem("user");
+    socket.sendSocket("syscall", {
+      label: "add_friends",
       query: {
-        model: 'User',
-        filter: { 'profile.username': user },
-        execute: { function: 'addRelation', params: [username] },
+        model: "User",
+        filter: { "profile.username": user },
+        execute: { function: "addRelation", params: [username] },
       },
     });
   };
 
   return (
-    <>
+    <RelationContext.Provider
+      value={{
+        friends: friends,
+        setFriends: setFriends,
+        subscribers: subscribers,
+        setSubscribers: setSubscribers,
+      }}
+    >
       <Header>
         <HeaderBack />
         <HeaderTitle
-          title={`${t('headerTitles.Friends')} (${
+          title={`${t("headerTitles.Friends")} (${
             friends?.length ? friends.length : 0
           })`}
         />
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('Tabs', {
-              screen: 'FriendsRequests',
-              creature: [subscribers, setFriends, friends, setSubscribers],
+            navigation.navigate("Tabs", {
+              screen: "FriendsRequests",
             })
           }
           style={headerStyles.headerRight}
         >
           <Text style={headerStyles.headerLabel}>
-            {t('headerTitles.FriendsRequests')} (
+            {t("headerTitles.FriendsRequests")} (
             {subscribers.length ? subscribers.length : 0})
           </Text>
         </TouchableOpacity>
@@ -202,15 +209,15 @@ export function Friends({ route, navigation }) {
         style={[containerStyles.container, containerStyles.containerPage]}
         refreshControl={
           <RefreshControl
-            colors={['white']}
-            tintColor={'white'}
+            colors={["white"]}
+            tintColor={"white"}
             refreshing={refreshing}
             onRefresh={onRefresh}
           />
         }
       >
         <Input
-          label=''
+          label=""
           value={search}
           onChangeText={(text) => {
             setSearch(text);
@@ -220,8 +227,8 @@ export function Friends({ route, navigation }) {
               icon={() => (
                 <View
                   style={{
-                    height: '100%',
-                    justifyContent: 'center',
+                    height: "100%",
+                    justifyContent: "center",
                     paddingTop: 8,
                   }}
                 >
@@ -234,11 +241,11 @@ export function Friends({ route, navigation }) {
         />
         {loader ? (
           <View style={styles.loaderView}>
-            <ActivityIndicator size='large' />
+            <ActivityIndicator size="large" />
           </View>
         ) : (
           <>
-            {search !== '' ? (
+            {search !== "" ? (
               <>
                 {searchFriend.length ? (
                   <>
@@ -247,8 +254,8 @@ export function Friends({ route, navigation }) {
                         <TouchableOpacity
                           style={styles.user}
                           onPress={() =>
-                            navigation.navigate('Tabs', {
-                              screen: 'AnotherUser',
+                            navigation.navigate("Tabs", {
+                              screen: "AnotherUser",
                               creature: user.name,
                             })
                           }
@@ -271,17 +278,17 @@ export function Friends({ route, navigation }) {
                         <BottomQuestModal
                           visible={visible}
                           setVisible={setVisible}
-                          title={t('components.labelsFriends.sure')}
-                          subtitle={`${t('components.labelsFriends.one')} \n${
+                          title={t("components.labelsFriends.sure")}
+                          subtitle={`${t("components.labelsFriends.one")} \n${
                             username.current
-                          } ${t('components.labelsFriends.two')}`}
+                          } ${t("components.labelsFriends.two")}`}
                           func={() => delRequest(username)}
                         ></BottomQuestModal>
                       </View>
                     ))}
                     <View
                       style={{
-                        borderBottomColor: 'rgba(255, 255, 255, 0.4)',
+                        borderBottomColor: "rgba(255, 255, 255, 0.4)",
                         borderBottomWidth: StyleSheet.hairlineWidth,
                         marginBottom: 16,
                       }}
@@ -292,8 +299,8 @@ export function Friends({ route, navigation }) {
                           key={index}
                           style={styles.user}
                           onPress={() =>
-                            navigation.navigate('Tabs', {
-                              screen: 'AnotherUser',
+                            navigation.navigate("Tabs", {
+                              screen: "AnotherUser",
                               creature: user.name,
                             })
                           }
@@ -305,7 +312,7 @@ export function Friends({ route, navigation }) {
                           <Text style={styles.userName}>{user.username}</Text>
                           {user?.isRequested ? (
                             <Text style={styles.userRequested}>
-                              {t('components.anotherStatistic.request')}
+                              {t("components.anotherStatistic.request")}
                             </Text>
                           ) : (
                             <TouchableOpacity
@@ -329,8 +336,8 @@ export function Friends({ route, navigation }) {
                           key={index}
                           style={styles.user}
                           onPress={() =>
-                            navigation.navigate('Tabs', {
-                              screen: 'AnotherUser',
+                            navigation.navigate("Tabs", {
+                              screen: "AnotherUser",
                               creature: user.name,
                             })
                           }
@@ -370,8 +377,8 @@ export function Friends({ route, navigation }) {
                             <TouchableOpacity
                               style={styles.user}
                               onPress={() =>
-                                navigation.navigate('Tabs', {
-                                  screen: 'AnotherUser',
+                                navigation.navigate("Tabs", {
+                                  screen: "AnotherUser",
                                   creature: user.name,
                                 })
                               }
@@ -395,29 +402,29 @@ export function Friends({ route, navigation }) {
                           <BottomQuestModal
                             visible={visible}
                             setVisible={setVisible}
-                            title={t('components.labelsFriends.sure')}
-                            subtitle={`${t('components.labelsFriends.one')} \n${
+                            title={t("components.labelsFriends.sure")}
+                            subtitle={`${t("components.labelsFriends.one")} \n${
                               username.current
-                            } ${t('components.labelsFriends.two')}`}
+                            } ${t("components.labelsFriends.two")}`}
                             func={() => delRequest(username.current)}
                           ></BottomQuestModal>
                         </View>
                       );
                     })
-                  : ''}
+                  : ""}
               </>
             )}
           </>
         )}
       </ScrollView>
-    </>
+    </RelationContext.Provider>
   );
 }
 
 const styles = StyleSheet.create({
   user: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 16,
   },
   userAvatar: {
@@ -427,31 +434,31 @@ const styles = StyleSheet.create({
     borderRadius: 60,
   },
   userName: {
-    fontWeight: '600',
+    fontWeight: "600",
     fontSize: 16,
     lineHeight: 22,
-    color: '#fff',
+    color: "#fff",
   },
   userAction: {
     marginBottom: -16,
-    marginLeft: 'auto',
+    marginLeft: "auto",
   },
   userRequested: {
-    fontWeight: '500',
+    fontWeight: "500",
     fontSize: 13,
     lineHeight: 18,
-    color: 'rgba(255, 255, 255, 0.4)',
-    position: 'absolute',
+    color: "rgba(255, 255, 255, 0.4)",
+    position: "absolute",
     right: 0,
   },
   userIcon: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 5,
   },
   loaderView: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
