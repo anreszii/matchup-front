@@ -4,84 +4,91 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-} from "react-native";
-import { Text } from "ui/Text.js";
-import { containerStyles } from "@/styles/container.js";
-import { AddUserIcon, DeleteUserIcon } from "@/icons";
-import socket from "@/socket";
+} from 'react-native';
+import { Text } from 'ui/Text.js';
+import { containerStyles } from '@/styles/container.js';
+import { AddUserIcon, DeleteUserIcon } from '@/icons';
+import socket from '@/socket';
 
-import { Header } from "@/components/Layout/Header.js";
-import { HeaderBack } from "@/components/Layout/HeaderBack.js";
-import { HeaderTitle } from "@/components/Layout/HeaderTitle.js";
-import { useTranslation } from "react-i18next";
-import { useContext, useEffect } from "react";
-import { useState, useRef } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getRelations } from "../requests";
-import { LogBox } from "react-native";
-import { RelationContext } from "@/context";
+import { Header } from '@/components/Layout/Header.js';
+import { HeaderBack } from '@/components/Layout/HeaderBack.js';
+import { HeaderTitle } from '@/components/Layout/HeaderTitle.js';
+import { useTranslation } from 'react-i18next';
+import { useContext, useEffect } from 'react';
+import { useState, useRef } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getRelations } from '../requests';
+import { LogBox } from 'react-native';
+import { RelationContext } from '@/context';
 
 LogBox.ignoreLogs([
-  "Non-serializable values were found in the navigation state",
+  'Non-serializable values were found in the navigation state',
 ]);
 
 export function FriendsRequests({ route }) {
   const { t, i18n } = useTranslation();
-  const { friends, setFriends, subscribers, setSubscribers } =
-    useContext(RelationContext);
+  const [subscribers, _setSubscribers] = useState([]);
   const subscribersRef = useRef(subscribers);
-  const _setSubscribers = (subs) => {
+  const setSubscribers = (subs) => {
     subscribersRef.current = subs;
-    setSubscribers(subs);
+    _setSubscribers(subs);
   };
   const [flag, setFlag] = useState(true);
-  const username = useRef("");
+  const username = useRef('');
 
   useEffect(() => {
-    const _subscribers = subscribers;
-    _subscribers.length &&
-      _subscribers.map((el) => {
-        if (el instanceof Array) {
-          _setSubscribers((subscribers) => [...subscribers, el[0]]);
-        } else {
-          _setSubscribers((subscribers) => [...subscribers, el]);
-        }
-      });
-    console.log(friends);
-    return () => {
-      setSubscribers([]);
-    };
+    (async () => {
+      setSubscribers(
+        JSON.parse(new Array(await AsyncStorage.getItem('subscribers')))
+      );
+      console.log(
+        JSON.parse(new Array(await AsyncStorage.getItem('subscribers'))),
+        'subscribers from friends request'
+      );
+    })();
   }, [route]);
-  console.log(subscribersRef.current, "joopa");
   useEffect(() => {
     socket.listenSocket(async (label, data) => {
-      if (label === "add_friends") {
-        console.log(subscribersRef.current);
+      if (label === 'add_friends') {
+        console.log('alo?');
         const index = subscribersRef.current.findIndex(
           (el) => el.name === username.current
         );
-        console.log(index, "index suka");
-        route.params.params.creature[1]([
-          ...route.params.params.creature[2],
-          subscribersRef.current[index],
-        ]);
+        await AsyncStorage.setItem(
+          'friends',
+          JSON.stringify([
+            ...JSON.parse(await AsyncStorage.getItem('friends')),
+            subscribersRef.current[index],
+          ])
+        );
+        console.log(
+          JSON.parse(await AsyncStorage.getItem('subscribers')).splice(
+            index,
+            1
+          ),
+          'set async subscribers',
+          index,
+          'index'
+        );
+        customLst = JSON.parse(await AsyncStorage.getItem('subscribers'));
+        customLst.splice(index, 1);
+        await AsyncStorage.setItem('subscribers', JSON.stringify(customLst));
         subscribersRef.current.splice(index, 1);
         setSubscribers([...subscribersRef.current]);
-        route.params.params.creature[3](subscribersRef.current);
         setFlag(!flag);
       }
     });
   }, []);
 
   const addToFriends = async (userName) => {
-    const user = await AsyncStorage.getItem("user");
+    const user = await AsyncStorage.getItem('user');
     username.current = userName;
-    socket.sendSocket("syscall", {
-      label: "add_friends",
+    socket.sendSocket('syscall', {
+      label: 'add_friends',
       query: {
-        model: "User",
-        filter: { "profile.username": user },
-        execute: { function: "addRelation", params: [userName] },
+        model: 'User',
+        filter: { 'profile.username': user },
+        execute: { function: 'addRelation', params: [userName] },
       },
     });
   };
@@ -90,7 +97,7 @@ export function FriendsRequests({ route }) {
     <>
       <Header>
         <HeaderBack />
-        <HeaderTitle title={t("headerTitles.FriendsRequests")} />
+        <HeaderTitle title={t('headerTitles.FriendsRequests')} />
       </Header>
       <ScrollView
         style={[containerStyles.container, containerStyles.containerPage]}
@@ -108,7 +115,7 @@ export function FriendsRequests({ route }) {
                 </TouchableOpacity>
               </View>
             ))
-          : ""}
+          : ''}
       </ScrollView>
     </>
   );
@@ -116,8 +123,8 @@ export function FriendsRequests({ route }) {
 
 const styles = StyleSheet.create({
   user: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 20,
   },
   icon: {
@@ -130,22 +137,22 @@ const styles = StyleSheet.create({
     borderRadius: 60,
   },
   userName: {
-    fontWeight: "600",
+    fontWeight: '600',
     fontSize: 16,
     lineHeight: 22,
-    color: "#fff",
+    color: '#fff',
   },
   userAction: {
-    marginLeft: "auto",
+    marginLeft: 'auto',
     marginBottom: -16,
   },
   userActionAccept: {
     marginLeft: 20,
   },
   userRequested: {
-    fontWeight: "500",
+    fontWeight: '500',
     fontSize: 13,
     lineHeight: 18,
-    color: "rgba(255, 255, 255, 0.4)",
+    color: 'rgba(255, 255, 255, 0.4)',
   },
 });
