@@ -5,12 +5,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import socket from "@/socket";
 import { getData } from "@/requests";
 import { useNavigation } from "@react-navigation/native";
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
 interface IIntro {
-  navigation: any
-   forwardTo?: any
-   appReady: boolean
+  navigation: any;
+  forwardTo?: any;
+  appReady: boolean;
 }
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -87,7 +87,7 @@ export const Intro: FC<IIntro> = ({ navigation, forwardTo, appReady }) => {
       />
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

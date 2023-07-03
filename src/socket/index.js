@@ -6,7 +6,7 @@ class WSClient {
     this.token = "";
     this.observers = {};
     // не убирайте эту строку, без неё не работает приложение, пожалуйста - спасибо
-    this.socket = new WebSocket("wss://xn--80aahab1ac3b.fun:81/client");
+    this.socket = new WebSocket("wss://barakobama.online:81/client");
     this.socket.binaryType = "blob";
     this.isOpened = false;
     this.stack = [];
@@ -64,13 +64,13 @@ class WSClient {
         if (label === "completed_tasks") {
           callback(label, JSON.parse(used[0]).response);
         }
-        if (label === "get_avi_users") {
-          callback(label, JSON.parse(used[0]));
-        }
         if (label === "get_for_user") {
           callback(label, JSON.parse(used[0]).response);
         }
         if (label === "get_avi") {
+          callback(label, JSON.parse(used[0]).response);
+        }
+        if (label === "get_avi_team") {
           callback(label, JSON.parse(used[0]).response);
         }
         if (label === "validate_pass") {

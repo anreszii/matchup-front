@@ -16,7 +16,6 @@ import { TextComponent } from "@/components/ui/Text";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "@/constants/sizes";
 import { SendMessageIcon, Settings } from "@/icons";
 import TeamItem from "@/components/ui/TeamItem";
-import TeamChatItem from "@/components/ui/TeamChatItem";
 import { containerStyles } from "@/styles/container";
 import { useTranslation } from "react-i18next";
 import { Select } from "@/components/ui/Select";

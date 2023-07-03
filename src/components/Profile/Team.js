@@ -21,6 +21,7 @@ export function Team({ team, userData }) {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const [guild, setGuild] = useState({});
+
   useEffect(() => {
     socket.listenSocket(async (label, data) => {
       if (label === "get_guild_data") {

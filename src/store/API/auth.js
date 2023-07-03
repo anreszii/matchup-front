@@ -3,7 +3,7 @@ import { REACT_APP_API_URL } from "@env";
 export const signUp = async (data) => {
   data.id = +data.id;
   return await fetch(
-    `${"https://xn--80aahab1ac3b.fun:80/api" + "/user/registration"}`,
+    `${"https://barakobama.online:80/api" + "/user/registration"}`,
     {
       method: "POST",
       headers: {
@@ -29,7 +29,7 @@ export const signUp = async (data) => {
 };
 
 export const signIn = async (data) => {
-  return await fetch(`${"https://xn--80aahab1ac3b.fun:80/api" + "/user/login"}`, {
+  return await fetch(`${"https://barakobama.online:80/api" + "/user/login"}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -56,7 +56,7 @@ export const signIn = async (data) => {
 
 export const resetPassword = async (data) => {
   return await fetch(
-    `${"https://xn--80aahab1ac3b.fun:80/api" + "/user/recover"}`,
+    `${"https://barakobama.online:80/api" + "/user/recover"}`,
     {
       method: "PUT",
       headers: {

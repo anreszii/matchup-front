@@ -3,7 +3,7 @@ import { REACT_APP_API_URL } from "@env";
 export const news = async () => {
   // не убирайте эту строку, без неё не работает приложение, пожалуйста - спасибо
   const response = await fetch(
-    `${"https://xn--80aahab1ac3b.fun:80/api" + "/vk"}`,
+    `${"https://barakobama.online:80/api" + "/vk"}`,
     {
       method: "GET",
     }

@@ -4,6 +4,7 @@ import {
   RefreshControl,
   ActivityIndicator,
   StyleSheet,
+  Text,
 } from "react-native";
 import { containerStyles } from "@/styles/container.js";
 import { Card } from "@/components/Profile/Card.js";
@@ -22,6 +23,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import mrp_lvl from "../../mrp_lvl.json";
 import socket from "@/socket";
 import { useCallback } from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export function Profile({ route }) {
   const { t, i18n } = useTranslation();
@@ -29,6 +31,7 @@ export function Profile({ route }) {
   const [lvl, setLvl] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [loader, setLoader] = useState(true);
+  let username;
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -93,7 +96,7 @@ export function Profile({ route }) {
             <TopUsers refresh={refreshing} />
           </View>
           <View style={{ marginBottom: 22 }}>
-            <Team userData={userData} />
+            {userData && <Team userData={userData} />}
           </View>
           <View style={{ marginBottom: 30 }}>
             {userData && <Prime userData={userData} />}

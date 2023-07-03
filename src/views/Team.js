@@ -15,18 +15,21 @@ import { TextComponent } from "@/components/ui/Text";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "@/constants/sizes";
 import { SendMessageIcon, Settings } from "@/icons";
 import TeamItem from "@/components/ui/TeamItem";
-import TeamChatItem from "@/components/ui/TeamChatItem";
 import { BottomQuestModal } from "@/components/Modals/BottomQuestModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import socket from "@/socket";
+import { Chat } from "@/components/Game/Chat";
+import { TeamChat } from "@/components/Team/TeamChat";
+import { headerStyles } from "@/styles/header";
 
 export default function Team({ navigate }) {
   const [message, setMessage] = useState("");
-  const [participants, setParticipants] = useState({});
   const [guild, setGuild] = useState();
-  const [messages, setMessages] = useState([]);
+  const [chatMessages, setChatMessages] = useState([]);
   const [visible, setVisible] = useState(false);
   const [removable, setRemovable] = useState("");
+  const [flag, setFlag] = useState(false);
+
   const onRemove = (playerName) => {
     setRemovable(playerName);
     setVisible(true);
@@ -34,7 +37,11 @@ export default function Team({ navigate }) {
   useEffect(() => {
     socket.listenSocket((label, data) => {
       if (label === "chat_history") {
-        console.log(data);
+        data.response[0].history.map((el) => {
+          if (el.author.name !== "system") {
+            setChatMessages((chatMessages) => [...chatMessages, el]);
+          }
+        });
       }
       if (label === "message") {
         console.log(data);
@@ -42,14 +49,15 @@ export default function Team({ navigate }) {
     });
     (async () => {
       const guildTemp = JSON.parse(await AsyncStorage.getItem("guild"));
+      console.log(guildTemp);
       setGuild(guildTemp);
-      setParticipants(guildTemp.members);
+      setFlag(!flag);
       socket.sendSocket("query", {
         label: "chat_history",
         query: {
           model: "Chat",
           method: "get",
-          filter: { _id: guildTemp._id },
+          filter: { "info.id": guildTemp.private.chat },
         },
       });
       socket.sendSocket("dark-side", {
@@ -61,67 +69,41 @@ export default function Team({ navigate }) {
   }, []);
 
   const sendMessage = () => {
+    console.log(message);
     if (message.length) {
+      console.log(message, "2");
       socket.sendSocket("dark-side", {
         label: "guild_message",
         controller: "chat_message",
         params: [guild.private.chat, message],
       });
-      setMessage("");
     }
+    setMessage("");
   };
-  console.log(messages, "messages");
-  console.log(participants, "participants");
   return (
-    <ScrollView>
+    <>
       <View
         style={{
           ...containerStyles.container,
           ...containerStyles.containerPage,
         }}
       >
-        <Header style={styles.header}>
-          <View>
-            <HeaderBack />
-          </View>
-          <View style={containerStyles.row}>
+        <Header>
+          <HeaderBack />
+          <View style={{ flexDirection: "row" }}>
             <HeaderTitle title={"Team"} />
             <View style={styles.lvl}>
               <TextComponent>{5} lvl</TextComponent>
             </View>
           </View>
-          <Settings />
+          <Settings style={headerStyles.headerRight} />
         </Header>
-        <TextComponent style={styles.grayText}>Наша команда</TextComponent>
-        <View style={styles.teamMates}>
-          {Object.keys(participants).length &&
-            Object.keys(participants).map((user) => {
-              return <TeamItem playerName={user} onRemove={onRemove} />;
-            })}
-        </View>
-        <TextComponent style={styles.grayText}>Чат команды</TextComponent>
-      </View>
-      <ScrollView style={styles.chats} bounces={false}>
-        {/*         {messages.length ? (
-          messages.map((e) => {
-            return <TeamChatItem author={e.author} text={e.text} />;
-          })
-        ) : (
-          <View>
-            <Text>у вас пока нет сообщений в гильдии</Text>
+        <ScrollView style={{ height: "100%", marginTop: 8 }}>
+          <TextComponent style={styles.grayText}>Наша команда</TextComponent>
+          <View style={styles.teamMates}>
+            <TeamItem onRemove={onRemove} />
           </View>
-        )} */}
-      </ScrollView>
-      <View style={styles.inputContainer}>
-        <TextInput
-          value={message}
-          onChangeText={(newText) => setMessage(newText)}
-          style={styles.input}
-          wrapperStyle={styles.inputWrapper}
-        />
-        <TouchableOpacity onPress={sendMessage}>
-          <SendMessageIcon style={styles.sendIcon} />
-        </TouchableOpacity>
+        </ScrollView>
       </View>
       <BottomQuestModal
         visible={visible}
@@ -129,13 +111,19 @@ export default function Team({ navigate }) {
         subtitle={`Точно хотите выгнать ${removable} из команды ?`}
         setVisible={setVisible}
       />
-    </ScrollView>
+      <View style={{ marginTop: "auto" }}>
+        <TeamChat
+          sendMessage={sendMessage}
+          message={message}
+          setMessage={setMessage}
+          chatHistory={chatMessages}
+        />
+      </View>
+    </>
   );
 }
 const styles = StyleSheet.create({
   header: {
-    width: "100%",
-    flexDirection: "row",
     justifyContent: "space-between",
   },
   lvl: {
