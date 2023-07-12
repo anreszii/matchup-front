@@ -21,15 +21,15 @@ import socket from "@/socket";
 import { Chat } from "@/components/Game/Chat";
 import { TeamChat } from "@/components/Team/TeamChat";
 import { headerStyles } from "@/styles/header";
+import { TeamSetting } from "@/components/Team/TeamSetting";
 
-export default function Team({ navigate }) {
+export default function Team({ navigation }) {
   const [message, setMessage] = useState("");
   const [guild, setGuild] = useState();
   const [chatMessages, setChatMessages] = useState([]);
   const [visible, setVisible] = useState(false);
   const [removable, setRemovable] = useState("");
   const [flag, setFlag] = useState(false);
-
   const onRemove = (playerName) => {
     setRemovable(playerName);
     setVisible(true);
@@ -69,9 +69,7 @@ export default function Team({ navigate }) {
   }, []);
 
   const sendMessage = () => {
-    console.log(message);
     if (message.length) {
-      console.log(message, "2");
       socket.sendSocket("dark-side", {
         label: "guild_message",
         controller: "chat_message",
@@ -96,7 +94,10 @@ export default function Team({ navigate }) {
               <TextComponent>{5} lvl</TextComponent>
             </View>
           </View>
-          <Settings style={headerStyles.headerRight} />
+          <TeamSetting
+            styles={headerStyles.headerRight}
+            navigation={navigation}
+          />
         </Header>
         <ScrollView style={{ height: "100%", marginTop: 8 }}>
           <TextComponent style={styles.grayText}>Наша команда</TextComponent>

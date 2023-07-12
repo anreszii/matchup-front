@@ -18,6 +18,7 @@ export default TeamItem = ({ onRemove }) => {
             if (
               usersTeam.find((user) => user.username === el.name) === undefined
             ) {
+              console.log(el);
               setUsersTeam((usersTeam) => [...usersTeam, el.profile]);
             }
           });

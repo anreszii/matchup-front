@@ -48,6 +48,7 @@ class WSClient {
       const fr = new FileReader();
       fr.onload = (e) => {
         const { event, used } = JSON.parse(e.target.result);
+        console.log(used);
         let label = JSON.parse(used[0]).label;
         if (label === "unknown") {
           callback(label, used);

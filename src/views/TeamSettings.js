@@ -1,83 +1,91 @@
-import React from "react";
-import { useState } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Image,
-} from "react-native";
-import { HeaderBack } from "@/components/Layout/HeaderBack";
-import { Header } from "@/components/Layout/Header";
-import { HeaderTitle } from "@/components/Layout/HeaderTitle";
-import { TextComponent } from "@/components/ui/Text";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "@/constants/sizes";
-import { SendMessageIcon, Settings } from "@/icons";
-import TeamItem from "@/components/ui/TeamItem";
-import { containerStyles } from "@/styles/container";
+import { ScrollView, View, StyleSheet } from "react-native";
+import { Text } from "ui/Text.js";
+import { containerStyles } from "@/styles/container.js";
+import { Input } from "ui/Input.js";
+import { Select } from "ui/Select.js";
+import { Button } from "ui/Button.js";
+import { ChangeAvatar } from "@/components/Profile/ChangeAvatar.js";
+import { Coin } from "@/icons";
 import { useTranslation } from "react-i18next";
-import { Select } from "@/components/ui/Select";
-import { Input } from "@/components/ui/Input";
-import { Button } from "@/components/ui/Button";
+import React, { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+import { Header } from "@/components/Layout/Header.js";
+import { HeaderBack } from "@/components/Layout/HeaderBack.js";
+import { HeaderTitle } from "@/components/Layout/HeaderTitle.js";
+import socket from "@/socket";
 import { BottomQuestModal } from "@/components/Modals/BottomQuestModal";
 
 export default function TeamSettings() {
-  const [title, setTitle] = useState("");
-  const [tag, setTag] = useState("");
-  const [modal, setModal] = useState(false);
-  const [members, setMembers] = useState();
-  const [access, setAccess] = useState();
-  const [rating, setrating] = useState();
   const { t, i18n } = useTranslation();
-  const colors = { background: "#1F2325" };
+  const options = ["1", "2", "3"];
+  const [teamName, setTeamName] = useState("");
+  const [teamTag, setTeamTag] = useState("");
+  const [playersCount, setPlayersCount] = useState("");
+  const [access, setAccess] = useState("");
+  const [minRating, setMinRating] = useState("");
+  const [teamAvi, setTeamAvi] = useState(null);
+  const [modal, setModal] = useState(false);
+
+  useEffect(() => {
+    socket.listenSocket(async (label, data) => {});
+  }, []);
+
+  const editGuild = async () => {
+    const profile = JSON.parse(await AsyncStorage.getItem("profile"))[0];
+    console.log(profile.profile.username, {
+      name: teamName,
+      tag: teamTag,
+    });
+  };
+
   return (
-    <ScrollView bounces={false}>
-      <View
-        style={{
-          ...containerStyles.container,
-          ...containerStyles.containerPage,
-        }}
+    <>
+      <Header>
+        <HeaderBack />
+        <HeaderTitle title={"Настройки команды"} />
+      </Header>
+
+      <ScrollView
+        contentContainerStyle={[
+          containerStyles.container,
+          containerStyles.containerPage,
+          styles.container,
+        ]}
       >
-        <Header style={styles.header}>
-          <HeaderBack />
-          <View style={containerStyles.row}>
-            <HeaderTitle title={"Настройки команды"} />
-          </View>
-        </Header>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={require("../../assets/teamAvatar.png")}
-          />
-          <TextComponent style={styles.changeImage}>
-            Изменить фотографию
-          </TextComponent>
-        </View>
+        <ChangeAvatar avatar={teamAvi} setAvatar={setTeamAvi} />
         <Input
-          label={"Название команды"}
-          value={title}
-          onChangeText={setTitle}
+          value={teamName}
+          onChangeText={setTeamName}
+          label={t("screens.teamEdit.teamName")}
+          mb={16}
         />
-        <Input label={"Название команды"} value={tag} onChangeText={setTag} />
-        <Select
-          style={styles.select}
-          isSearchable={false}
-          label={"Допустимое кол-во участников"}
-          options={[8]}
-        />
-        <Select
-          style={styles.select}
-          isSearchable={false}
-          label={"Доступ"}
-          options={["Открытая команда"]}
+        <Input
+          value={teamTag}
+          onChangeText={setTeamTag}
+          label={t("screens.teamEdit.teamTag")}
+          mb={16}
         />
         <Select
-          style={styles.select}
-          isSearchable={false}
-          label={"Необходимое кол-во рейтинга"}
-          options={[999]}
+          label={t("screens.teamEdit.playersCount")}
+          options={options}
+          mb={16}
+          value={playersCount}
+          setValue={setPlayersCount}
+        />
+        <Select
+          label={t("screens.teamEdit.access")}
+          options={options}
+          mb={16}
+          value={access}
+          setValue={setAccess}
+        />
+        <Select
+          label={t("screens.teamEdit.minRating")}
+          options={options}
+          mb={16}
+          value={minRating}
+          setValue={setMinRating}
         />
         <Button
           style={styles.button}
@@ -90,35 +98,33 @@ export default function TeamSettings() {
           visible={modal}
           setVisible={setModal}
         />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 }
+
 const styles = StyleSheet.create({
-  imageContainer: {
-    marginTop: 22,
-    marginBottom: 20,
+  container: {
     alignItems: "center",
+    flexGrow: 1,
+    paddingBottom: 16,
   },
-  header: {
-    width: "100%",
+  label: {
     flexDirection: "row",
-    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 16,
   },
-  image: {
-    width: 120,
-    height: 120,
-    marginBottom: 12,
-  },
-  changeImage: {
+  labelPrice: {
+    color: "#fff",
     fontWeight: "600",
     fontSize: 16,
     lineHeight: 22,
   },
-  select: {
-    marginBottom: 16,
+  labelPriceAlt: {
+    fontWeight: "500",
+    color: "rgba(255, 255, 255, 0.4)",
   },
-  button: {
-    marginTop: 68,
+  labelIcon: {
+    marginHorizontal: 4,
   },
 });
